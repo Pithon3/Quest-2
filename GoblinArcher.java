@@ -2,71 +2,74 @@ package quest2;
 
 public class GoblinArcher extends Sprite{
 	
-	int lives = 1;
-	int damage = 0;
+	int lives = 1;  //Variable for the amount of lives the sprite has
+	int damage = 0;  //Variable for the amount of damage the sprite does
 	
-	EnemyArrow arrow = new EnemyArrow("src/quest2/enemyarrow.gif", x, y, 32, 7, this);
+	EnemyArrow arrow = new EnemyArrow("src/quest2/enemyarrow.gif", x, y, 32, 7, this);  //Initialize the arrow of the archer
 	
-	Enemy master;
-	public boolean appear = false;
+	Enemy master;  //The field for the enemy class
+	public boolean appear = false;  //Boolean variable that represent if the sprite is supposed to be shown
+
 	
 	public GoblinArcher(int x, int y, int xl, int yl, String path, Enemy enemy) {
 		super(path, x, y, xl, yl);
-		master = enemy;
+		master = enemy;  //Assign master to the enemy argument
 	}
 	
 	@Override
 	public void Update() {
-		arrow.Update();
+		arrow.Update();  //Update the arrow
 		
+		//Move the goblin archer
 		x += dx;
 		y += dy;
 		
+		
 		if (appear == true) {
 			if (x < 0){
-				dx = 1;
+				dx = 1;  //Set the X-speed to 1 if it is alive and not past it's shooting point
 			} else {
-				dx = 0;
+				dx = 0;  //Otherwise set it to 0
 			}
 		} else {
-			dx = 0;
+			dx = 0;  //Otherwise set it to 0
 		}
 		
-		checkLives();
+		checkLives();  //check the lives of the goblin archer to see if it should still be living
 	}
 
-	public void checkLake(Lake lake) {
+	public void checkLake(Lake lake) {  //Function to check if the goblin archer is in collision with a lake
 		if(checkCollision(lake.x, lake.y, lake.xl, lake.yl)) {
 			dx = 0;
 		}		
 	}
 	
-	public void checkCrater(Crater crater) {
+	public void checkCrater(Crater crater) {  //Function to check if the goblin archer is in collision with a crater
 		if(checkCollision(crater.x, crater.y, crater.xl, crater.yl)) {
 			dx = 0;
 		}
 	}
 	
-	public void checkArcher(Archer archer) {
+	public void checkArcher(Archer archer) {  //Function to check if the goblin archer is in collision with a archer
 		if(checkCollision(archer.x, archer.y, archer.xl, archer.yl)) {
 			dx = 0;
 		}
 	}
 	
-	public void checkWarrior(Warrior warrior) {
+	public void checkWarrior(Warrior warrior) {  //Function to check if the goblin archer is in collision with a warrior
 		if(checkCollision(warrior.x, warrior.y, warrior.xl, warrior.yl)) {
 			dx = 0;
 		}
 	}
 	
 	
-	public void checkWall(Wall wall) {
+	public void checkWall(Wall wall) {  //Function to check if the goblin archer is in collision with a wall
 		if(checkCollision(wall.x, wall.y, wall.xl, wall.yl)) {
 			dx = 0;
 		}
 	}
 
-	public void checkArrow(Arrow arrow) {
+	public void checkArrow(Arrow arrow) {  //Function to check if the goblin archer is in collision with a arrow
 		if(checkCollision(arrow.x, arrow.y, arrow.xl, arrow.yl)) {
 			dx = 0;
 			lives -= arrow.damage;
@@ -74,20 +77,20 @@ public class GoblinArcher extends Sprite{
 		}
 	}
 
-	public void appear() {
-		appear = true;		
+	public void appear() {  //Function to appear
+		appear = true;  //Appear
 	}
 	
-	public void checkLives() {
-		if (lives < 1) {
-			appear = false;
+	public void checkLives() {  
+		if (lives < 1) {  //If the goblin archer has less than one life (0)...
+			appear = false;  //...Dissappear
 			x = -300;
 			y = -300;
 		}
 	}
 
 	public void checkHero(Hero hero) {
-		if(checkCollision(hero.x, hero.y, hero.xl, hero.yl)) {
+		if(checkCollision(hero.x, hero.y, hero.xl, hero.yl)) {  //Function to check if the goblin archer is in collision with the hero
 			dx = 0;
 			lives -= hero.damage;
 			hero.defend(damage);
@@ -95,7 +98,7 @@ public class GoblinArcher extends Sprite{
 	}
 
 	public void checkSword(HeroSword sword) {
-		if(checkCollision(sword.x, sword.y, sword.xl, sword.yl)) {
+		if(checkCollision(sword.x, sword.y, sword.xl, sword.yl)) {  //Function to check if the goblin archer is in collision with the hero's sword
 			dx = 0;
 			lives -= sword.damage;
 			x -= 50;

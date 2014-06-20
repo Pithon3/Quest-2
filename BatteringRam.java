@@ -2,45 +2,47 @@ package quest2;
 
 public class BatteringRam extends Sprite{
 	
-	Enemy master;
-	public boolean appear = false;
+	Enemy master;  //The field for the enemy class
+	public boolean appear = false;  //Boolean variable that represent if the sprite is supposed to be shown
+
 	
-	boolean bram = true;
-	Goblin[] goblins = new Goblin[3];
+	boolean bram = true;  //The boolean variable that represents if the battering ram is still a battering ram
+	Goblin[] goblins = new Goblin[3];  //Create 3 goblins that will appear when the battering ram hits a lake, crater, or wall
 	
-	int lives = 3;
-	int damage = 2;
+	int lives = 3;  //Variable for the amount of lives the sprite has
+	int damage = 2;  //Variable for the amount of damage the sprite does
 	
 	public BatteringRam(int x, int y, int xl, int yl, String path, Enemy enemy) {
 		super(path, x, y, xl, yl);
-		master = enemy;
+		master = enemy;  //Assign master to the enemy argument
 	}
 	
 	@Override
 	public void Update() {
-		if (bram == true) {
+		if (bram == true) {  //If the battering ram is still a battering ram...
+			//...Move it
 			x += dx;
 			y += dy;
-		} else {
+		} else {  //Otherwise...
 			for (int i = 0; i < 3; i++) {
-				goblins[i].Update();
+				goblins[i].Update();  //...Update the goblins that have appeared
 			}
 		}
 		
 		if (appear == true) {
 			if (bram == false) {
-				appear = false;
+				appear = false;  //Change appear to false if it is not a battering ram
 			} else {
-				dx = 1;
+				dx = 1;  //Set the X-speed to 1 if it is alive
 			}
 		} else {
-			dx = 0;
+			dx = 0;  //Otherwise set it to 0
 		}
 		
 		checkLives();
 	}
 
-	public void checkLake(Lake lake) {
+	public void checkLake(Lake lake) {  //Function to check if the battering ram is in collision with a lake
 		if(checkCollision(lake.x, lake.y, lake.xl, lake.yl)) {
 			dx = 0;
 			if (bram == true) {
@@ -54,7 +56,7 @@ public class BatteringRam extends Sprite{
 		}
 	}
 	
-	public void checkCrater(Crater crater) {
+	public void checkCrater(Crater crater) {  //Function to check if the battering ram is in collision with a crater
 		if(checkCollision(crater.x, crater.y, crater.xl, crater.yl)) {
 			dx = 0;
 			if (bram == true) {
@@ -68,7 +70,7 @@ public class BatteringRam extends Sprite{
 		}
 	}
 	
-	public void checkArcher(Archer archer) {
+	public void checkArcher(Archer archer) {  //Function to check if the battering ram is in collision with a archer
 		if(checkCollision(archer.x, archer.y, archer.xl, archer.yl)) {
 			dx = 0;
 			lives -= archer.damage;
@@ -80,7 +82,7 @@ public class BatteringRam extends Sprite{
 		}
 	}
 	
-	public void checkWarrior(Warrior warrior) {
+	public void checkWarrior(Warrior warrior) {  //Function to check if the battering ram is in collision with a warrior
 		if(checkCollision(warrior.x, warrior.y, warrior.xl, warrior.yl)) {
 			dx = 0;
 			lives -= warrior.damage;
@@ -92,7 +94,7 @@ public class BatteringRam extends Sprite{
 		}
 	}
 	
-	public void checkWall(Wall wall) {
+	public void checkWall(Wall wall) {  //Function to check if the battering ram is in collision with a wall
 		if(checkCollision(wall.x, wall.y, wall.xl, wall.yl)) {
 			dx = 0;
 			if (bram == true) {
@@ -106,7 +108,7 @@ public class BatteringRam extends Sprite{
 		}
 	}
 
-	public void checkArrow(Arrow arrow) {
+	public void checkArrow(Arrow arrow) {  //Function to check if the battering ram is in collision with a arrow
 		if(checkCollision(arrow.x, arrow.y, arrow.xl, arrow.yl)) {
 			dx = 0;
 			if (bram == true) {
@@ -141,7 +143,7 @@ public class BatteringRam extends Sprite{
 		}
 	}
 
-	public void checkHero(Hero hero) {
+	public void checkHero(Hero hero) {  //Function to check if the battering ram is in collision with the hero
 		if(checkCollision(hero.x, hero.y, hero.xl, hero.yl)) {
 			dx = 0;
 			if (bram == true) {
@@ -158,7 +160,7 @@ public class BatteringRam extends Sprite{
 		
 	}
 
-	public void checkSword(HeroSword sword) {
+	public void checkSword(HeroSword sword) {  //Function to check if the battering ram is in collision with the hero's sword
 		if(checkCollision(sword.x, sword.y, sword.xl, sword.yl)) {
 			dx = 0;
 			if (bram == true) {

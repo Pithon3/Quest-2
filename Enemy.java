@@ -1,79 +1,73 @@
 package quest2;
 
+//import random stuff
 import java.util.Random;
 
 public class Enemy {
 	
-	Good2 good;
+	Good2 good;  //A copy of an arch enemy
 	
-	Goblin[] goblins = new Goblin[22];
-	int ngoblins = 0;
+	Goblin[] goblins = new Goblin[22];  //Initiate 22 goblins
+	int ngoblins = 0;  //Set the number of goblins to 0
 	
-	GoblinArcher[] garchers = new GoblinArcher[5];
-	int ngarchers = 0;
+	GoblinArcher[] garchers = new GoblinArcher[5];  //Initiate 5 goblin archers
+	int ngarchers = 0;  //Set the number of archers to 0
 	
-	BatteringRam[] brams = new BatteringRam[8];
-	int nbrams = 0;
+	BatteringRam[] brams = new BatteringRam[8];  //Initiate 8 battering rams
+	int nbrams = 0;  //Set the number of battering rams to 0
 	
-	KingGoblin kgoblin;
-	int nkgoblin = 0;
+	KingGoblin kgoblin;  //Initiate the goblin king
 	
+	//Set the order of the things that appear
 	String[] order = new String[]{"goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "battering ram", "battering ram", "battering ram", "battering ram", "battering ram", "archer", "archer", "archer", "archer", "archer", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "battering ram", "battering ram", "battering ram", "king"};
 	
-	long stime;
-	long time;
-	int ntime = 0;
+	long stime;  //The start time of the attack
+	long time;  //The updated current time
+	int ntime = 0;  //The time that it has to be before the next foe comes
 	
-	Random rand = new Random();
-	Window master;
+	Random rand = new Random();  //A random class
+	Window master;  //The master of all, the window
 
-	private boolean Win = false;
-	
+	private boolean Win = false;  //The boolean variable that represents when Good side has won
 	
 	public Enemy(Good2 good, Window mas) {
-		this.good = good;
-		this.master = mas;
+		this.good = good;  //Assign good to something
+		this.master = mas;  //Let the enemy know who is the master
 		
-		for (int i = 0; i < 15; i++) {
+		//Create actual goblins in the list of goblins
+		for (int i = 0; i < 22; i++) {
 		    int randnum = rand.nextInt(9) * 48;
 		    goblins[i] = new Goblin(-40, randnum, 40, 62, "src/quest2/goblin.gif", this);
 		}
-		
-		for (int i = 0; i < 5; i++) {
+
+		//Create actual battering rams in the list of battering rams
+		for (int i = 0; i < 8; i++) {
 			int randnum = rand.nextInt(9) * 48;
 			brams[i] = new BatteringRam(-94, randnum, 94, 63, "src/quest2/batteringram.gif", this);
 		}
-		
+
+		//Create actual goblin archers in the list of goblin archers
 		for (int i = 0; i < 5; i++) {
 			int randnum = rand.nextInt(9) * 48;
 			garchers[i] = new GoblinArcher(-39, randnum, 39, 66, "src/quest2/goblinarcher.gif", this);
 		}
-		
-		for (int i = 0; i < 7; i++) {
-			int randnum = rand.nextInt(9) * 48;
-			goblins[i + 15] = new Goblin(-40, randnum, 40, 62, "src/quest2/goblin.gif", this);
-		}
-		
-		for (int i = 0; i < 3; i++) {
-			int randnum = rand.nextInt(9) * 48;
-			brams[i + 5] = new BatteringRam(-94, randnum, 94, 63, "src/quest2/batteringram.gif", this);
-		}
-		
+
+		//Create an actual king goblin
 		int randnum = rand.nextInt(9) * 48;
 		kgoblin = new KingGoblin(-40, randnum, 40, 67, "src/quest2/kinggoblin.gif", this);
 	    				
 	}
 	
 	public void start(long starttime) {
-		stime = starttime;
+		stime = starttime;  //set the start time to what ever the master says
 	}
 	
 	public void update(long utime) {
-		time = utime - stime;
+		time = utime - stime;  //Calculate the time since stime was assigned
 
-		if (time > ntime) {
+		if (time > ntime) {  //If the time is greater than the time is has to be before the next foe comes...
 			try {
-				String name = order[ntime / 2];
+				String name = order[ntime / 2];  //...Then calculate what the next foe is based on the order and make it come
 				if (name == "goblin") {
 					goblins[ngoblins].appear();
 					ngoblins ++;
@@ -91,34 +85,43 @@ public class Enemy {
 				
 			}
 			ntime += 2;
-		}
+		} 
 		
+		//Update the goblins and check if they're in the fort
 		for (int i = 0; i < 22; i++) {
 			goblins[i].Update();
 			if (goblins[i].x > 720) {
 				master.lose();
 			}
-		} for (int i = 0; i < 5; i++) {
+		} 
+		
+		//Update the goblin archers and check if they're in the fort
+		for (int i = 0; i < 5; i++) {
 			garchers[i].Update();
 			if (garchers[i].x > 720) {
 				master.lose();
 			}
-		} for (int i = 0; i < 8; i++) {
+		} 
+		
+		//Update the battering rams and check if they're in the fort
+		for (int i = 0; i < 8; i++) {
 			brams[i].Update();
 			if (brams[i].x > 720) {
 				master.lose();
 			}
 		}
+		
+		//Update the king goblin and check if it's in the fort
 		kgoblin.Update();
 		if (kgoblin.x > 720) {
 			master.lose();
 		}
 		
-		checkCollision();
-		checkWin();
+		checkCollision();  //Check for collisions among the kings minions
+		checkWin();  //Check if the impossible has happened
 	}
 	
-	public void checkCollision() {
+	public void checkCollision() {  //Check each defense against each foe
 		//Check Lake
 		for(int i = 0; i < good.nlakes; i++) {
 			Lake lake = good.lakes[i];
@@ -226,7 +229,7 @@ public class Enemy {
 					
 	}
 	
-	private void checkWin() {
+	private void checkWin() {  //Check if the impossible has happened
 		int win = 0;
 		for (int i = 0; i < 22; i++) {
 			if (goblins[i].dx == 0) {

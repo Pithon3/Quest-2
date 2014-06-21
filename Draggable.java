@@ -11,6 +11,7 @@ public class Draggable extends Sprite{
 	boolean mousein = false;  //boolean variable that represents if the mouse is in the area of the sprite
 	
 	Good1 master;  //the master of this sprite
+	public String filepath;
 	
 	public Draggable(String filepath, int x, int y, int xlong, int ylong, String n, Good1 good1) {
 		super(filepath, x, y, xlong, ylong);

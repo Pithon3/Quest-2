@@ -1,5 +1,7 @@
 package quest2;
 
+//The Main Class
+
 //Import Stuff
 import javax.imageio.ImageIO;  
 import javax.swing.ImageIcon;
@@ -23,6 +25,8 @@ public class WindowFrame extends JFrame{
 	private static final long serialVersionUID = 1L;  //Code so I don't get a warning
 
 	public WindowFrame(boolean doExit) {
+		int one = 1;
+		
 		this.doExit = doExit;  //Assign the argument doExit to the Field
 		
 		window = new Window(this);  //Initialize the Window class
@@ -49,6 +53,7 @@ public class WindowFrame extends JFrame{
 		setVisible(true);  //Make the window visible so the goblins don't sneek up on them
 		setResizable(false);  //Make sure that people can't distort the content
 		setIconImage(image);  //Set the hard earned image as the icon of the frame
+		setLocationRelativeTo(null);
 	}
 	
 	public static void main(String args[]) {  //The main function that get called at the begginning of the program

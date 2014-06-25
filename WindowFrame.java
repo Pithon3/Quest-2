@@ -24,9 +24,7 @@ public class WindowFrame extends JFrame{
 	
 	private static final long serialVersionUID = 1L;  //Code so I don't get a warning
 
-	public WindowFrame(boolean doExit) {
-		int one = 1;
-		
+	public WindowFrame(boolean doExit) {		
 		this.doExit = doExit;  //Assign the argument doExit to the Field
 		
 		window = new Window(this);  //Initialize the Window class

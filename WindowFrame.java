@@ -18,7 +18,6 @@ public class WindowFrame extends JFrame{
 	static Window window;  //Field for the content of the frame
 	public boolean doExit;  //If the window is not on its own, make sure it doesn't close every thing when it closes
 	
-	private String icon = "/src/quest2/Logo.png";  //Path of the logo picture
 	private static BufferedImage BufImage;  //The buffered image for the logo picture
 	Image image;  //The image for the icon of the frame
 	
@@ -32,7 +31,7 @@ public class WindowFrame extends JFrame{
 		
 		//Get a Image for the Icon
 	    try {
-			BufImage = ImageIO.read(new File(icon));  //Get a buffered image with the path (hopefully)
+			BufImage = ImageIO.read(new File(getClass().getResource("/src/quest2/Logo.png")));  //Get a buffered image with the path (hopefully)
 		} catch (IOException e) {
 			e.printStackTrace();  //If the above doesn't happen, give a big error to the user
 		}

@@ -30,7 +30,7 @@ public class Sprite extends MouseAdapter{
 	
 	public Sprite(String path, int x, int y, int xlong, int ylong) {
 		try {
-			buffimage = ImageIO.read(new File(path));  //Get a buffered Image from the path given
+			buffimage = ImageIO.read(new File(getClass().getResource(path));  //Get a buffered Image from the path given
 		} catch (IOException e) {
 			e.printStackTrace();  //Give a error if it doesn't work
 		};

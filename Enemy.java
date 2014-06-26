@@ -37,24 +37,24 @@ public class Enemy {
 		//Create actual goblins in the list of goblins
 		for (int i = 0; i < 22; i++) {
 		    int randnum = rand.nextInt(9) * 48;
-		    goblins[i] = new Goblin(-40, randnum, 40, 62, "src/quest2/goblin.gif", this);
+		    goblins[i] = new Goblin(-40, randnum, 40, 62, "/src/quest2/goblin.gif", this);
 		}
 
 		//Create actual battering rams in the list of battering rams
 		for (int i = 0; i < 8; i++) {
 			int randnum = rand.nextInt(9) * 48;
-			brams[i] = new BatteringRam(-94, randnum, 94, 63, "src/quest2/batteringram.gif", this);
+			brams[i] = new BatteringRam(-94, randnum, 94, 63, "/src/quest2/batteringram.gif", this);
 		}
 
 		//Create actual goblin archers in the list of goblin archers
 		for (int i = 0; i < 5; i++) {
 			int randnum = rand.nextInt(9) * 48;
-			garchers[i] = new GoblinArcher(-39, randnum, 39, 66, "src/quest2/goblinarcher.gif", this);
+			garchers[i] = new GoblinArcher(-39, randnum, 39, 66, "/src/quest2/goblinarcher.gif", this);
 		}
 
 		//Create an actual king goblin
 		int randnum = rand.nextInt(9) * 48;
-		kgoblin = new KingGoblin(-40, randnum, 40, 67, "src/quest2/kinggoblin.gif", this);
+		kgoblin = new KingGoblin(-40, randnum, 40, 67, "/src/quest2/kinggoblin.gif", this);
 	    				
 	}
 	

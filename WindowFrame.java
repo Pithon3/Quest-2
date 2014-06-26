@@ -18,7 +18,7 @@ public class WindowFrame extends JFrame{
 	static Window window;  //Field for the content of the frame
 	public boolean doExit;  //If the window is not on its own, make sure it doesn't close every thing when it closes
 	
-	private String icon = "src/quest2/Logo.png";  //Path of the logo picture
+	private String icon = "/src/quest2/Logo.png";  //Path of the logo picture
 	private static BufferedImage BufImage;  //The buffered image for the logo picture
 	Image image;  //The image for the icon of the frame
 	

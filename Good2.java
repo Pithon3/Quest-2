@@ -52,7 +52,7 @@ public class Good2 {
 			}
 		}
 		
-		hero = new Hero("/src/quest2/hero.gif", 620, 200, 24, 62);  //Create the hero
+		hero = new Hero("/quest2/hero.gif", 620, 200, 24, 62);  //Create the hero
 		
 	}
 

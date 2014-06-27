@@ -131,7 +131,7 @@ public class BatteringRam extends Sprite{
 	void goblin() {
 		bram = false;
 		for (int i = 0; i < 3; i++) {
-			goblins[i] = new Goblin(x - 50, y + (48 * (i - 1)), 40, 62, "/src/quest2/goblin.gif", master, true);
+			goblins[i] = new Goblin(x - 50, y + (48 * (i - 1)), 40, 62, "/quest2/goblin.gif", master, true);
 		}
 	}
 	

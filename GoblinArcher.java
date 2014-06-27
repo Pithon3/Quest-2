@@ -5,7 +5,7 @@ public class GoblinArcher extends Sprite{
 	int lives = 1;  //Variable for the amount of lives the sprite has
 	int damage = 0;  //Variable for the amount of damage the sprite does
 	
-	EnemyArrow arrow = new EnemyArrow("src/quest2/enemyarrow.gif", x, y, 32, 7, this);  //Initialize the arrow of the archer
+	EnemyArrow arrow = new EnemyArrow("/quest2/enemyarrow.gif", x, y, 32, 7, this);  //Initialize the arrow of the archer
 	
 	Enemy master;  //The field for the enemy class
 	public boolean appear = false;  //Boolean variable that represent if the sprite is supposed to be shown

@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class WindowFrame extends JFrame{
@@ -26,32 +27,30 @@ public class WindowFrame extends JFrame{
 		this.doExit = doExit;  //Assign the argument doExit to the Field
 		
 		window = new Window(this);  //Initialize the Window class
-		add(window);  //Add the window (the content of the program) to the screen
+	    add(window);  //Add the window (the content of the program) to the screen
 		
 		//Get a Image for the Icon
 	    try {
-			BufImage = ImageIO.read(getClass().getResource("/quest2/Logo.png"));  //Get a buffered image with the path (hopefully)
+			BufImage = ImageIO.read(new File(getClass().getResource("/src/quest2/Logo.png")));  //Get a buffered image with the path (hopefully)
 		} catch (IOException e) {
 			e.printStackTrace();  //If the above doesn't happen, give a big error to the user
 		}
+		ImageIcon ii = new ImageIcon(BufImage);  //get a ImageIcon from the buffered image
+		image = ii.getImage();  //Get the final image for the icon of the window
 		
-	    if (doExit == true) {  //Do this only if it is the root window
+		if (doExit == true) {  //Do this only if it is the root window
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //End the program with the close of the window
 		} else {
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  //Just close the window with the pushing of the X button
 		}
 		
-	    //Set stuff for the window
-    	setResizable(false);  //Make sure that people can't distort the content
-    	setSize(720, 480);  //Set the size of the window
-    	setTitle("Quest 2");  //Set the title of the window so people know what they are playing
-    	if (BufImage != null) {
-    	    ImageIcon ii = new ImageIcon(BufImage);  //get a ImageIcon from the buffered image
-    	    image = ii.getImage();  //Get the final image for the icon of the window
-    	    setIconImage(image);  //Set the hard earned image as the icon of the frame
-    	}
-    	setLocationRelativeTo(null);
-    	setVisible(true);  //Make the window visible so the goblins don't sneek up on them
+		//Set stuff for the window
+		setSize(720, 480);  //Set the size of the window
+		setTitle("Quest 2");  //Set the title of the window so people know what they are playing
+		setVisible(true);  //Make the window visible so the goblins don't sneek up on them
+		setResizable(false);  //Make sure that people can't distort the content
+		setIconImage(image);  //Set the hard earned image as the icon of the frame
+		setLocationRelativeTo(null);
 	}
 	
 	public static void main(String args[]) {  //The main function that get called at the begginning of the program

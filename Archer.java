@@ -7,7 +7,7 @@ public class Archer extends Sprite{
 	int damage = 0;  //Variable for the amount of damage the sprite does
 	int lives = 1;  //Variable for the amount of lives the sprite has
 	
-	Arrow arrow = new Arrow("/quest2/arrow.gif", x, y, 32, 7, this);
+	Arrow arrow = new Arrow("/src/quest2/arrow.gif", x, y, 32, 7, this);
 
 	public Archer(int x, int y, int xl, int yl, String filepath) {
 		super(filepath, x, y, xl, yl);

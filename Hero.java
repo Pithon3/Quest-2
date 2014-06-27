@@ -7,7 +7,7 @@ public class Hero extends Sprite{
 	boolean appear = true;  //Boolean variable that represent if the sprite is supposed to be shown
 
 	
-	HeroSword sword = new HeroSword("/quest2/herosword.gif", x, y, 22, 27, this);  //create the hero's sword
+	HeroSword sword = new HeroSword("/src/quest2/herosword.gif", x, y, 22, 27, this);  //create the hero's sword
 	
 	public Hero(String path, int x, int y, int xl, int yl) {
 		super(path, x, y, xl, yl);

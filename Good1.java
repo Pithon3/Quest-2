@@ -16,7 +16,7 @@ public class Good1 {
 	int itemsin = 0;  //Amount of defences that have been placed
 	
 	Draggable inplacement;  //The field that represents the defence being placed
-	Draggable blankDraggable = new Draggable("/quest2/lake.gif", -300, -300, 34, 70, "null", this);  //A draggable item that can't be placed, it is used when there is nothing else being placed
+	Draggable blankDraggable = new Draggable("/src/quest2/lake.gif", -300, -300, 34, 70, "null", this);  //A draggable item that can't be placed, it is used when there is nothing else being placed
 	
 	public Good1() {
 		//Create starting defences
@@ -31,14 +31,14 @@ public class Good1 {
 	
 	public void createLake() {  //Function for creating lakes
 		if (lakes > 0) {
-			items[itemsin] = new Draggable("/quest2/lake.gif", 20, 20, 34, 70, "lake", this);
+			items[itemsin] = new Draggable("/src/quest2/lake.gif", 20, 20, 34, 70, "lake", this);
 			itemsin++;
 		}
 	}
 	
 	public void createCrater() {  //Function for creating craters
 		if (craters > 0) {
-			items[itemsin] = new Draggable("/quest2/crater.gif", 120, 20, 38, 62, "crater", this);
+			items[itemsin] = new Draggable("/src/quest2/crater.gif", 120, 20, 38, 62, "crater", this);
 			itemsin++;
 		}
 		
@@ -46,21 +46,21 @@ public class Good1 {
 	
 	public void createArcher() {  //Function for creating archers
 		if (archers > 0) {
-			items[itemsin] = new Draggable("/quest2/archer.gif", 220, 20, 39, 66, "archer", this);
+			items[itemsin] = new Draggable("/src/quest2/archer.gif", 220, 20, 39, 66, "archer", this);
 			itemsin++;
 		}
 	}
 	
 	public void createWarrior() {  //Function for creating warriors
 		if (warriors > 0) {
-			items[itemsin] = new Draggable("/quest2/warrior.gif", 320, 20, 40, 62, "warrior", this);
+			items[itemsin] = new Draggable("/src/quest2/warrior.gif", 320, 20, 40, 62, "warrior", this);
 			itemsin++;
 		}
 	}
 	
 	public void createWall() {  //Function for creating walls
 		if (walls > 0) {
-			items[itemsin] = new Draggable("/quest2/wall.png", 420, 20, 65, 86, "wall", this);
+			items[itemsin] = new Draggable("/src/quest2/wall.png", 420, 20, 65, 86, "wall", this);
 			itemsin++;
 		}
 	}

@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 public class Good1 {
 	
 	private int lakes = 2;  //Set limit of 2 lakes
-	private int craters = 4;  //Set limit of 3 craters
+	private int craters = 3;  //Set limit of 3 craters
 	private int archers = 4;  //Set limit of 4 archers
 	private int warriors = 7;  //Set limit of 7 warriors
 	private int walls = 4;  //Set limit of 4 walls

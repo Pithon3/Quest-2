@@ -9,3 +9,4 @@ Future Updates
 - Bug Fixes
 - Better Imaging
 - Animations
+- Improved AI

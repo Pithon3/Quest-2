@@ -8,7 +8,7 @@ public class Warrior extends Sprite{
 	int damage = 1;  //Variable for the amount of damage the sprite does
 	int lives = 2;  //Variable for the amount of lives the sprite has
 
-	public Warrior(int x, int y, int xl, int yl, String filepath) {
+	public Warrior(double x, double y, int xl, int yl, String filepath) {
 		super(filepath, x, y, xl, yl);
 	}
 	

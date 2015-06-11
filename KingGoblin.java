@@ -10,10 +10,13 @@ public class KingGoblin extends Sprite{
 	int damage = 3;  //Variable for the amount of damage the sprite does
 	
 	boolean win = false;  //Variable for if the goblin died
+	public boolean targeted = false;
 	
 	public KingGoblin(int x, int y, int xl, int yl, String path, Enemy enemy) {
 		super(path, x, y, xl, yl);
+		moving = true;
 		master = enemy;  //Assign master to the enemy argument
+		name = "GKing";
 	}
 	
 	@Override
@@ -35,7 +38,8 @@ public class KingGoblin extends Sprite{
 	private void checkLives() {
 		if (lives < 1) {  //If the goblin has less than one life (0)...
 			win = true;  //...Then set win to true meaning that it has died and...
-			appear = false;  //...Dissappear
+			appear = false;  //...Dissappear.
+			master.remove(this);
 			x = -300;
 			y = -300;
 		}

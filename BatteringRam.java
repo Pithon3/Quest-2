@@ -11,10 +11,13 @@ public class BatteringRam extends Sprite{
 	
 	int lives = 3;  //Variable for the amount of lives the sprite has
 	int damage = 2;  //Variable for the amount of damage the sprite does
+	public boolean targeted = false;
 	
 	public BatteringRam(int x, int y, int xl, int yl, String path, Enemy enemy) {
 		super(path, x, y, xl, yl);
+		moving = true;
 		master = enemy;  //Assign master to the enemy argument
+		name = "GBatteringRam";
 	}
 	
 	@Override
@@ -132,12 +135,14 @@ public class BatteringRam extends Sprite{
 		bram = false;
 		for (int i = 0; i < 3; i++) {
 			goblins[i] = new Goblin(x - 50, y + (48 * (i - 1)), 40, 62, "/quest2/goblin.gif", master, true);
+			master.add(goblins[i]);
 		}
 	}
 	
 	void checkLives() {
 		if (bram == false | lives < 1) {
 			appear = false;
+			master.remove(this);
 			x = -300;
 			y = -300;
 		}

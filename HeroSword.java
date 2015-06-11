@@ -8,7 +8,7 @@ public class HeroSword extends Sprite{
 	int strikecount = 0;  //Count of how long the sword has been striking
 	int damage = 3;  //The amount of damage the sword does
 		
-	public HeroSword(String path, int x, int y, int xl, int yl, Hero hero) {
+	public HeroSword(String path, double x, double y, int xl, int yl, Hero hero) {
 		super(path, x, y, xl, yl);
 		this.hero = hero;  //Assign something to the sword	
 	}

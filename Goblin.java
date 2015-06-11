@@ -7,16 +7,22 @@ public class Goblin extends Sprite{
 
 	int damage = 1;  //Variable for the amount of damage the sprite does
 	int lives = 1;  //Variable for the amount of lives the sprite has
+	public boolean targeted;
 	
-	public Goblin(int x, int y, int xl, int yl, String path, Enemy enemy) {
+	public Goblin(double x, double y, int xl, int yl, String path, Enemy enemy) {
 		super(path, x, y, xl, yl);
+		moving = true;
 		master = enemy;  //Assign master to the enemy argument
+		name = "Goblin";
 	}
 	
-	public Goblin(int x, int y, int xl, int yl, String path, Enemy enemy, boolean appear) {  //The function for the initiation through battering ram
+	public Goblin(double x, double y, int xl, int yl, String path, Enemy enemy, boolean appear) {  //The function for the initiation through battering ram
 		super(path, x, y, xl, yl);
 		master = enemy;
+		targeted = true;
+		moving = true;
 		this.appear = true;  //The goblin can now appear right away
+		name = "Goblin";
 	}
 
 	@Override
@@ -28,12 +34,17 @@ public class Goblin extends Sprite{
 			y = 480 - (2*yl);
 		}
 		
+		//Set the last x and y values
+		lx = x;
+		ly = y;
+		
 		//Move the goblin
 		x += dx;
 		y += dy;
 		
 		if (appear == true) {
-			dx = 1;  //Set the X-speed to 1 if it is alive
+			dx = 1;//Set the X-speed to 1 if it is alive
+			moving = true;
 		} else {
 			dx = 0;  //Otherwise set it to 0
 		}
@@ -44,6 +55,7 @@ public class Goblin extends Sprite{
 	private void checkLives() {
 		if (lives < 1) {  //If the goblin has less than one life (0)...
 			appear = false;  //...Dissappear
+			master.remove(this);
 			x = -300;
 			y = -300;
 		}
@@ -55,13 +67,15 @@ public class Goblin extends Sprite{
 
 	public void checkLake(Lake lake) {  //Function to check if the goblin is in collision with a lake
 		if(checkCollision(lake.x, lake.y, lake.xl, lake.yl)) {
-			dx = 0;	
+			dx = 0;
+			moving = false;
 		}
 	}
 	
 	public void checkCrater(Crater crater) {  //Function to check if the goblin is in collision with a crater
 		if(checkCollision(crater.x, crater.y, crater.xl, crater.yl)) {
 			dx = 0;
+			moving = false;
 		}
 	}
 	
@@ -84,6 +98,7 @@ public class Goblin extends Sprite{
 	public void checkWall(Wall wall) {  //Function to check if the goblin is in collision with a wall
 		if(checkCollision(wall.x, wall.y, wall.xl, wall.yl)) {
 			dx = 0;
+			moving = false;
 		}
 	}
 

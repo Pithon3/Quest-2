@@ -13,7 +13,7 @@ public class EnemyArrow extends Sprite {
 	double direction;  //The direction in wich the arrow if pointing
 	boolean fired = false;  //If the arrow is fired
 	
-	public EnemyArrow(String path, int x, int y, int xl, int yl, GoblinArcher master) {
+	public EnemyArrow(String path, double x, double y, int xl, int yl, GoblinArcher master) {
 		super(path, x, y, xl, yl);
 		archer = master;  //Assign the GoblinArcher to archer
 	}

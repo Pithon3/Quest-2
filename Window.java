@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,6 +38,8 @@ public class Window extends JPanel implements ActionListener{
 	private int counter;  //A count of the ticks between different game intructions
 	
 	private static final long serialVersionUID = 1L;  //Code so I don't get a warning
+	
+	static Sprite blankSprite = new Sprite(500, 500);
 
 	public Window(WindowFrame frame) {
 		this.frame = frame;  //Assing the argument frame to the field
@@ -66,7 +69,7 @@ public class Window extends JPanel implements ActionListener{
 		super.paint(g);
 		
 		Graphics2D G = (Graphics2D)g;  //Initialize Graphics2D        
-	    
+		
 		//What to do during the first gamemode
 		if (gm == 1) {
 			
@@ -94,7 +97,7 @@ public class Window extends JPanel implements ActionListener{
 			//Update the placeable items
 			for (int i = 0; i < good1.itemsin; i++) {
 				Draggable sprite = good1.items[i];
-				G.drawImage(sprite.image, sprite.x, sprite.y, this);
+				G.drawImage(sprite.image, (int) sprite.x, (int) sprite.y, this);
 			}
 			
 			//Update the counter
@@ -113,7 +116,7 @@ public class Window extends JPanel implements ActionListener{
 			for (int i = 0; i < good2.nlakes; i++) {
 				Lake lake = good2.lakes[i];
 				if (lake.appear == true) {
-					G.drawImage(lake.image, lake.x, lake.y, this);
+					G.drawImage(lake.image, (int) lake.x, (int) lake.y, this);
 				}
 			}
 			
@@ -121,7 +124,7 @@ public class Window extends JPanel implements ActionListener{
 			for (int j = 0; j < good2.ncraters; j++) {
 				Crater crater = good2.craters[j];
 				if (crater.appear == true) {
-					G.drawImage(crater.image, crater.x, crater.y, this);
+					G.drawImage(crater.image, (int) crater.x, (int) crater.y, this);
 				}	
 			}
 			
@@ -129,21 +132,28 @@ public class Window extends JPanel implements ActionListener{
 			for (int k = 0; k < good2.narchers; k++) {
 				Archer archer = good2.archers[k];
 				if (archer.appear == true) {
-					G.drawImage(archer.image, archer.x, archer.y, this);
+					G.drawImage(archer.image, (int) archer.x, (int) archer.y, this);
+					
+					if (archer.directed == true) {
+						G.setColor(new Color(0, 200, 0));
+						G.drawRect((int) archer.x, (int) archer.y, (int) archer.xl, (int) archer.yl);
+					}
 				}
 				
 				//...Arrows
-				Arrow arrow = archer.arrow;
-				G.rotate(arrow.direction, arrow.x, arrow.y);
-				G.drawImage(arrow.image, arrow.x, arrow.y, this);
-				G.rotate(-arrow.direction, arrow.x, arrow.y);
+				for (int i = 0; i < archer.arrows.size(); i++) {
+					Arrow arrow = archer.arrows.get(i);
+					G.rotate(arrow.direction, arrow.x + 16, arrow.y + 6);
+					G.drawImage(arrow.image, (int) arrow.x, (int) arrow.y, this);
+					G.rotate(-arrow.direction, arrow.x + 16, arrow.y + 6);
+				}
 			} 
 			
 			//...warriors
 			for (int l = 0; l < good2.nwarriors; l++) {
 				Warrior warrior = good2.warriors[l];
 				if (warrior.appear == true) {
-					G.drawImage(warrior.image, warrior.x, warrior.y, this);
+					G.drawImage(warrior.image, (int) warrior.x, (int) warrior.y, this);
 				}
 			}
 			
@@ -151,7 +161,7 @@ public class Window extends JPanel implements ActionListener{
 			for (int m = 0; m < good2.nwalls; m++) {
 				Wall wall = good2.walls[m];
 				if (wall.appear == true) {
-					G.drawImage(wall.image, wall.x, wall.y, this);
+					G.drawImage(wall.image, (int) wall.x, (int)  wall.y, this);
 				}
 			}
 			
@@ -159,10 +169,10 @@ public class Window extends JPanel implements ActionListener{
 			Hero hero = good2.hero;
 			if (hero.appear == true) {
 				HeroSword sword = hero.sword;
-				G.drawImage(hero.image, hero.x, hero.y, this);
+				G.drawImage(hero.image, (int) hero.x, (int) hero.y, this);
 				
 				G.rotate(-sword.rotation, sword.x, sword.y);
-				G.drawImage(sword.image, sword.x, sword.y, this);
+				G.drawImage(sword.image, (int) sword.x, (int) sword.y, this);
 				G.rotate(sword.rotation, sword.x, sword.y);
 
 			}
@@ -171,21 +181,20 @@ public class Window extends JPanel implements ActionListener{
 			for (int n = 0; n < 22; n++) {
 				Goblin goblin = enemy.goblins[n];
 				if (goblin.appear == true) {
-					
-					G.drawImage(goblin.image, goblin.x, goblin.y, this);
+					G.drawImage(goblin.image, (int) goblin.x, (int) goblin.y, this);
 				}
 			} 
 			
 			//...goblin archers
 			for (int i = 0; i < 5; i++) {
 				GoblinArcher garcher = enemy.garchers[i];
-				if (garcher.appear == true) {
-					G.drawImage(garcher.image, garcher.x, garcher.y, this);
+				if (garcher.appear == true) {				
+					G.drawImage(garcher.image, (int) garcher.x, (int) garcher.y, this);
 				}
 				
 				//...goblin archer's arrows
 				EnemyArrow arrow = garcher.arrow;
-				G.drawImage(arrow.image, arrow.x, arrow.y, this);
+				G.drawImage(arrow.image, (int) arrow.x, (int) arrow.y, this);
 				
 			} 
 			
@@ -194,14 +203,14 @@ public class Window extends JPanel implements ActionListener{
 				BatteringRam bram = enemy.brams[i];
 				if (bram.appear == true) {  //If the battering ram is still a battering ram
 					if (bram.bram == true) {
-						G.drawImage(bram.image, bram.x, bram.y, this);
+						G.drawImage(bram.image, (int) bram.x, (int) bram.y, this);
 					}
 				} else {  //Otherwise draw the goblins
 					if (bram.bram == false) {
 						for (int j = 0; j < 3; j++) {
 							Goblin goblin = bram.goblins[j];
 							if (goblin.appear == true) {
-								G.drawImage(goblin.image, goblin.x, goblin.y, this);
+								G.drawImage(goblin.image, (int) goblin.x, (int) goblin.y, this);
 							}
 						}
 					}
@@ -210,7 +219,7 @@ public class Window extends JPanel implements ActionListener{
 				
 			//...goblin king
 			if (enemy.kgoblin.appear == true) {
-				G.drawImage(enemy.kgoblin.image, enemy.kgoblin.x, enemy.kgoblin.y, this);
+				G.drawImage(enemy.kgoblin.image, (int) enemy.kgoblin.x, (int) enemy.kgoblin.y, this);
 			}
 			
 		}
@@ -344,6 +353,9 @@ public class Window extends JPanel implements ActionListener{
 	    
 	    public void mouseDragged(MouseEvent e) { 
 	    	good1.mouseDragged(e);  //Tell good1 the mouse moved
+	    	if (enemy != null) {
+				enemy.mouseClicked(e);
+			}
 	    }
 	}
 	
@@ -351,6 +363,10 @@ public class Window extends JPanel implements ActionListener{
 		
 		public void mouseClicked(MouseEvent e) {
 			good1.mouseClicked(e);  //Tell good1 the mouse clicked
+			good2.mouseClicked(e);
+			if (enemy != null) {
+				enemy.mouseClicked(e);
+			}
 		}
 	}
 	

@@ -1,5 +1,7 @@
 package quest2;
 
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 //import random stuff
 import java.util.Random;
 
@@ -21,9 +23,14 @@ public class Enemy {
 	//Set the order of the things that appear
 	String[] order = new String[]{"goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "battering ram", "battering ram", "battering ram", "battering ram", "battering ram", "archer", "archer", "archer", "archer", "archer", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "battering ram", "battering ram", "battering ram", "king"};
 	
-	long stime;  //The start time of the attack
-	long time;  //The updated current time
-	int ntime = 0;  //The time that it has to be before the next foe comes
+	ArrayList<Sprite> goblinplayers = new ArrayList<Sprite>();
+	ArrayList<Sprite> targets = new ArrayList<Sprite>();
+	
+	Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
+	
+	double stime;  //The start time of the attack
+	double time;  //The updated current time
+	double ntime = 0;  //The time that it has to be before the next foe comes
 	
 	Random rand = new Random();  //A random class
 	Window master;  //The master of all, the window
@@ -64,21 +71,35 @@ public class Enemy {
 	
 	public void update(long utime) {
 		time = utime - stime;  //Calculate the time since stime was assigned
-
+		
+		good.updateEnemyList(targets, archert);
+		
 		if (time > ntime) {  //If the time is greater than the time is has to be before the next foe comes...
 			try {
-				String name = order[ntime / 2];  //...Then calculate what the next foe is based on the order and make it come
+				String name = order[(int) (ntime / 2)];  //...Then calculate what the next foe is based on the order and make it come
 				if (name == "goblin") {
 					goblins[ngoblins].appear();
+					goblinplayers.add(goblins[ngoblins]);
+					goblins[ngoblins].targeted = true;
+					targets.add(goblins[ngoblins]);
 					ngoblins ++;
 				} if (name == "battering ram") {
 					brams[nbrams].appear();
+					goblinplayers.add(brams[nbrams]);
+					brams[nbrams].targeted = true;
+					targets.add(brams[nbrams]);
 					nbrams ++;
 				} if (name == "archer") {
 					garchers[ngarchers].appear();
+					goblinplayers.add(garchers[ngarchers]);
+					garchers[ngarchers].targeted = true;
+					targets.add(garchers[ngarchers]);
 					ngarchers ++;
 				} if (name == "king") {
 					kgoblin.appear();
+					kgoblin.targeted = true;
+					targets.add(kgoblin);
+					goblinplayers.add(kgoblin);
 				}
 				
 			} catch(Exception e) {
@@ -89,10 +110,13 @@ public class Enemy {
 		
 		//Update the goblins and check if they're in the fort
 		for (int i = 0; i < 22; i++) {
-			goblins[i].Update();
+			Goblin goblin = goblins[i];
+			
+			goblin.Update();
 			if (goblins[i].x > 720) {
 				master.lose();
 			}
+			
 		} 
 		
 		//Update the goblin archers and check if they're in the fort
@@ -121,6 +145,7 @@ public class Enemy {
 		checkWin();  //Check if the impossible has happened
 	}
 	
+
 	public void checkCollision() {  //Check each defense against each foe
 		//Check Lake
 		for(int i = 0; i < good.nlakes; i++) {
@@ -163,16 +188,17 @@ public class Enemy {
 			kgoblin.checkArcher(archer);
 			
 			//Check Arrows
-			Arrow arrow = archer.arrow;
-			for (int j = 0; j < 22; j++) {
-				goblins[j].checkArrow(arrow);
-			} for (int j = 0; j < 5; j++) {
-				garchers[j].checkArrow(arrow);
-			} for (int j = 0; j < 8; j++) {
-				brams[j].checkArrow(arrow);
+			for (int i = 0; i < archer.arrows.size(); i++) {
+				Arrow arrow = archer.arrows.get(i);
+				for (int j = 0; j < 22; j++) {
+					goblins[j].checkArrow(arrow);
+				} for (int j = 0; j < 5; j++) {
+					garchers[j].checkArrow(arrow);
+				} for (int j = 0; j < 8; j++) {
+					brams[j].checkArrow(arrow);
+				}
+				kgoblin.checkArrow(arrow);
 			}
-			kgoblin.checkArrow(arrow);
-			
 			
 		//Check Warrior
 		} for(int l = 0; l < good.nwarriors; l++) {
@@ -256,6 +282,40 @@ public class Enemy {
 		if (win > 51 & Win == false) {
 			Win  = true;
 			master.win();
+		}
+	}
+	
+	public void remove(Sprite goblin) {
+		goblinplayers.remove(goblin);
+		try {
+			targets.remove(goblin);
+		} catch (Exception e) {
+			
+		}
+		
+		for (int i = 0; i < 4; i++) {
+			if (archert[i] == goblin) {
+				archert[i] = Window.blankSprite;
+			}
+		}
+	}
+	
+	public void add (Sprite goblin) {
+		targets.add(goblin);
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (good.directoree != Window.blankSprite) {
+			for (int i = 0; i < goblinplayers.size(); i++) {
+				Sprite s = goblinplayers.get(i);
+				if (s.checkCollision(e.getX(), e.getY(), 1, 1)) {
+					String name = good.directoree.name;
+					if (name == "Archer") {
+						archert[good.directoree.num] = s;
+					}
+				}
+			}
+			
 		}
 	}
 	

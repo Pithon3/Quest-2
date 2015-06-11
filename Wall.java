@@ -8,7 +8,7 @@ public class Wall extends Sprite{
 	int damage = 0;  //Variable for the amount of damage the sprite does
 	int lives = 3;  //Variable for the amount of lives the sprite has
 
-	public Wall(int x, int y, int xl, int yl, String filepath) {
+	public Wall(double x, double y, int xl, int yl, String filepath) {
 		super(filepath, x, y, xl, yl);
 	}
 	

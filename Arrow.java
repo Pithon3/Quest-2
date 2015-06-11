@@ -1,5 +1,6 @@
 package quest2;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Arrow extends Sprite {
@@ -10,39 +11,30 @@ public class Arrow extends Sprite {
 	int lives = 1;  //The variable that represents the amount of lives the arrow has
 	int damage = 2;  //The variable that represents the amount of damage the arrow does
 	
-	double direction;  //The direction in wich the arrow if pointing
-	boolean fired = false;  //If the arrow is fired
+	double direction = 0;  //The direction in wich the arrow if pointing
 	
-	public Arrow(String path, int x, int y, int xl, int yl, Archer master) {
+	public Arrow(String path, double x, double y, int xl, int yl, double tx, double ty, Archer master, int facing) {
 		super(path, x, y, xl, yl);
-		archer = master;  //Assign the Archer to archer
+		archer = master;  //Assign the arrow to archer
+		
+		double dis = Math.sqrt(Math.pow(x-tx, 2) + Math.pow(y-ty, 2));
+		dx = -3 * (x-tx) / dis;
+		dy = -3 *(y-ty) / dis;
+		
+		direction = Math.atan((ty-y)/(tx-x)) + facing*Math.PI;
 	}
 
 	public void Update() {
 		//Move the arrow
 		x += dx;
 		y += dy;
-		
-		if (fired == true) {
-			dx = -2;  //If the arrow is fires, assign the X-speed to -2
-			dy = (int)(direction * -2);  //assign the Y-speed to the direction * -2
-			
-			if (checkOutOfRange()) {  //Check if the arrow is out of the screen
-				fired = false;
-				x = archer.x;
-				y = archer.y;
-			}
-		} else {  //If the arrow is not fired, fire it
-			direction = rand.nextInt(3) - 1;
-			direction = direction / 2;
-			fired = true;
-		}
 	}
 
-	public void defend(int life) {  //A function to re-fire
-		fired = false;
+	public void defend(int life) {  //A function to destroy arrow
 		x = archer.x;
 		y = archer.y;
+		
+		archer.arrows.remove(this);
 	}
 	
 }

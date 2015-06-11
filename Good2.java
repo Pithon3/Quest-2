@@ -1,5 +1,8 @@
 package quest2;
 
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 public class Good2 {
 	
 	Good1 good1;  //A copy of the first good side controller
@@ -22,6 +25,13 @@ public class Good2 {
 	
 	public Hero hero;  //Create the hero of the game
 	
+	ArrayList<Sprite> gtargets = new ArrayList<Sprite>();
+	
+	Sprite directoree = Window.blankSprite;
+	
+	Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
+
+	
 	public Good2(Good1 g1) {
 		good1 = g1;  //Assign the argument g1 to the field good1
 	}
@@ -39,7 +49,7 @@ public class Good2 {
 				ncraters += 1;
 			} 
 			if (convert.name == "archer") {
-				archers[narchers] = new Archer(convert.x, convert.y, convert.xl, convert.yl, convert.filepath);
+				archers[narchers] = new Archer(this, convert.x, convert.y, convert.xl, convert.yl, convert.filepath, narchers);
 				narchers += 1;
 			} 
 			if (convert.name == "warrior") {
@@ -62,13 +72,38 @@ public class Good2 {
 		} for (int j = 0; j < ncraters; j++) {
 			craters[j].Update();
 		} for (int k = 0; k < narchers; k++) {
-			archers[k].Update();
+			archers[k].Update(gtargets, archert[k]);			
 		} for (int l = 0; l < nwarriors; l++) {
 			warriors[l].Update();
 		} for (int m = 0; m < nwalls; m++) {
 			walls[m].Update();
 		}
 		hero.Update2();
+		
+	}
+	
+	public void updateEnemyList(ArrayList<Sprite> s, Sprite[] archert) {
+		gtargets = s;
+		this.archert = archert;
+
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		for (int i = 0; i < 4; i++) {
+			try {
+				if (archers[i].checkCollision(e.getX(), e.getY(), 1, 1)) {
+					if (archers[i].directed == false) {
+						directoree = archers[i];
+						archers[i].directed = true;
+					} else {
+						directoree = Window.blankSprite;
+						archers[i].directed = false;
+					}
+				}
+			} catch (Exception E) {
+				
+			}
+		}
 	}
 	
 }

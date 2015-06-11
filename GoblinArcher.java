@@ -9,11 +9,14 @@ public class GoblinArcher extends Sprite{
 	
 	Enemy master;  //The field for the enemy class
 	public boolean appear = false;  //Boolean variable that represent if the sprite is supposed to be shown
-
+	public boolean targeted = false;
 	
 	public GoblinArcher(int x, int y, int xl, int yl, String path, Enemy enemy) {
 		super(path, x, y, xl, yl);
+		moving = true;
 		master = enemy;  //Assign master to the enemy argument
+		name = "GArcher";
+		
 	}
 	
 	@Override
@@ -30,6 +33,7 @@ public class GoblinArcher extends Sprite{
 				dx = 1;  //Set the X-speed to 1 if it is alive and not past it's shooting point
 			} else {
 				dx = 0;  //Otherwise set it to 0
+				moving = false;
 			}
 		} else {
 			dx = 0;  //Otherwise set it to 0
@@ -84,6 +88,7 @@ public class GoblinArcher extends Sprite{
 	public void checkLives() {  
 		if (lives < 1) {  //If the goblin archer has less than one life (0)...
 			appear = false;  //...Dissappear
+			master.remove(this);
 			x = -300;
 			y = -300;
 		}

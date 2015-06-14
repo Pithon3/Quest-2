@@ -95,8 +95,8 @@ public class Window extends JPanel implements ActionListener{
 			G.drawString("Go on --->", 620, 435);
 			
 			//Update the placeable items
-			for (int i = 0; i < good1.itemsin; i++) {
-				Draggable sprite = good1.items[i];
+			for (int i = 0; i < good1.items.size(); i++) {
+				Draggable sprite = good1.items.get(i);
 				G.drawImage(sprite.image, (int) sprite.x, (int) sprite.y, this);
 			}
 			
@@ -137,6 +137,12 @@ public class Window extends JPanel implements ActionListener{
 					if (archer.directed == true) {
 						G.setColor(new Color(0, 200, 0));
 						G.drawRect((int) archer.x, (int) archer.y, (int) archer.xl, (int) archer.yl);
+						
+						if (archer.ptarget != null) {
+							Sprite target = archer.ptarget;
+							G.setColor(Color.red);
+							G.drawRect((int) target.x, (int) target.y, (int) target.xl, (int) target.yl);
+						}
 					}
 				}
 				

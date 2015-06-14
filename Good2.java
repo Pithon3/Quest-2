@@ -36,27 +36,30 @@ public class Good2 {
 		good1 = g1;  //Assign the argument g1 to the field good1
 	}
 	
-	void convertDraggables(Draggable[] items, Enemy enemy) {  //Function to convert the Draggables to their separate classes
-		for (int i = 0; i < good1.itemsin; i++) {
-			Draggable convert = items[i];
+	void convertDraggables(ArrayList<Draggable> items, Enemy enemy) {  //Function to convert the Draggables to their separate classes
+		for (int i = 0; i < items.size(); i++) {
+			Draggable convert = items.get(i);
 			
-			if (convert.name == "lake") {
+			if (!convert.placed) {
+				//pass
+			}
+			else if (convert.name == "lake") {
 				lakes[nlakes] = new Lake(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath);
 				nlakes += 1;
 			} 
-			if (convert.name == "crater") {
+			else if (convert.name == "crater") {
 				craters[ncraters] = new Crater(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath);
 				ncraters += 1;
 			} 
-			if (convert.name == "archer") {
+			else if (convert.name == "archer") {
 				archers[narchers] = new Archer(this, convert.x, convert.y, convert.xl, convert.yl, convert.filepath, narchers);
 				narchers += 1;
 			} 
-			if (convert.name == "warrior") {
+			else if (convert.name == "warrior") {
 				warriors[nwarriors] = new Warrior(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath);
 				nwarriors += 1;
 			} 
-			if (convert.name == "wall") {
+			else if (convert.name == "wall") {
 				walls[nwalls] = new Wall(convert.x, convert.y, convert.xl, convert.yl, convert.filepath);
 				nwalls += 1;
 			}

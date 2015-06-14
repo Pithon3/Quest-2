@@ -9,6 +9,7 @@ public class Draggable extends Sprite{
 	int my;  //the Y value of the mouse
 	String name;  //name of the defence that will be placed
 	boolean mousein = false;  //boolean variable that represents if the mouse is in the area of the sprite
+	boolean placed = false;
 	
 	Good1 master;  //the master of this sprite
 	public String filepath;  //For accesing the path once the drggable is being converted
@@ -71,6 +72,7 @@ public class Draggable extends Sprite{
 			if (master.getInPlacement() == master.blankDraggable) {  //...And Good1's inplacement isn't some other sprite...
 				mousein = true;
 				master.changeInPlacement(this);  //...Change Good1's inplacement to this sprite
+				placed = true;
 			}
 		}
 	}

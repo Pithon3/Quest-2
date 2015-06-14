@@ -17,16 +17,23 @@ public class Archer extends Sprite{
 	
 	Sprite ptarget = null;
 	
-	public Archer(Good2 g, double x, double y, int xlong, int ylong, String filepath, int num) {
+	public Archer(Good2 g, double x, double y, int xlong, int ylong, String filepath, int n) {
 		super(filepath, x, y, xlong, ylong);
 		name = "Archer";
 		master = g;
-		num = num;
+		num = n;
 		appear = true;
+		arrowtimer -= 50 * num;
 	}
 	
 	public void Update(ArrayList<Sprite> targets, Sprite target) {
 		checkLives();
+		
+		if (target != Window.blankSprite) {
+			ptarget = target;
+		} else {
+			ptarget = null;
+		}
 		
 		arrowtimer++;
 		
@@ -39,7 +46,7 @@ public class Archer extends Sprite{
 					try {
 					
 						target = targets.get(num - i);
-						boolean tmoving = targets.get(num - i).moving;
+						boolean tmoving = target.moving;
 						double dis = Math.sqrt(Math.pow(x-target.x, 2) + Math.pow(y-target.y, 2));
 						
 						double xaim = 0;
@@ -74,9 +81,22 @@ public class Archer extends Sprite{
 				}
 				
 			} else { 
+				boolean tmoving = target.moving;
 				double dis = Math.sqrt(Math.pow(x-target.x, 2) + Math.pow(y-target.y, 2));
 				
-				if ((target.x + (dis / 3)) < x) {
+				double xaim = 0;
+				if (tmoving == true) {
+					if (target.name != "GKing") {
+						xaim = target.x + (dis/3);
+					} else {
+						xaim = target.x + dis/2;
+					}
+				} else {
+					xaim = target.x;
+				}
+				
+				
+				if (xaim < x) {
 					setImage("/quest2/archer.gif");
 					facing = 0;
 				} else {
@@ -85,9 +105,9 @@ public class Archer extends Sprite{
 				}
 		
 				if (facing == 0) {
-					arrows.add(new Arrow("/quest2/arrow.gif", x - 15, y + 10, 32, 7, (target.x + (dis / 3)), target.y, this, facing));
+					arrows.add(new Arrow("/quest2/arrow.gif", x - 15, y + 10, 32, 7, xaim, target.y, this, facing));
 				} else {
-					arrows.add(new Arrow("/quest2/arrow.gif", x + 15, y + 10, 32, 7, (target.x + (dis / 3)), target.y, this, facing));
+					arrows.add(new Arrow("/quest2/arrow.gif", x + 15, y + 10, 32, 7, xaim, target.y, this, facing));
 				}
 			}
 		

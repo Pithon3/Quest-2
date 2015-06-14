@@ -45,12 +45,14 @@ public class GoblinArcher extends Sprite{
 	public void checkLake(Lake lake) {  //Function to check if the goblin archer is in collision with a lake
 		if(checkCollision(lake.x, lake.y, lake.xl, lake.yl)) {
 			dx = 0;
+			moving = false;
 		}		
 	}
 	
 	public void checkCrater(Crater crater) {  //Function to check if the goblin archer is in collision with a crater
 		if(checkCollision(crater.x, crater.y, crater.xl, crater.yl)) {
 			dx = 0;
+			moving = false;
 		}
 	}
 	
@@ -70,6 +72,7 @@ public class GoblinArcher extends Sprite{
 	public void checkWall(Wall wall) {  //Function to check if the goblin archer is in collision with a wall
 		if(checkCollision(wall.x, wall.y, wall.xl, wall.yl)) {
 			dx = 0;
+			moving = false;
 		}
 	}
 

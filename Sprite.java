@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import java.awt.event.MouseAdapter;
-import java.awt.geom.Arc2D.Double;
 import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 
@@ -73,6 +72,18 @@ public class Sprite extends MouseAdapter{
 		}
 		
 	}
+	
+	static boolean checkCollision(double x, double y, int xl, int yl, double drx, double dry, int xlong, int ylong) {  //Check for a collision with a sprite
+		Rectangle rect1 = new Rectangle((int) x, (int) y, xl, yl);
+		Rectangle rect2 = new Rectangle((int) drx, (int) dry, xlong, ylong);
+		if (rect1.intersects(rect2)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
 	
 	protected boolean checkOutOfRange() {  //Check if the sprite is out if range, and if so, move it back in range
 		int xra = 720 - xl;

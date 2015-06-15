@@ -31,6 +31,7 @@ public class Enemy {
 	double stime;  //The start time of the attack
 	double time;  //The updated current time
 	double ntime = 0;  //The time that it has to be before the next foe comes
+	boolean lose;
 	
 	Random rand = new Random();  //A random class
 	Window master;  //The master of all, the window
@@ -69,8 +70,9 @@ public class Enemy {
 		stime = starttime;  //set the start time to what ever the master says
 	}
 	
-	public void update(long utime) {
+	public void update(long utime, boolean lose) {
 		time = utime - stime;  //Calculate the time since stime was assigned
+		this.lose = lose;
 		
 		good.updateEnemyList(targets, archert);
 		
@@ -141,7 +143,9 @@ public class Enemy {
 			master.lose();
 		}
 		
-		checkCollision();  //Check for collisions among the kings minions
+		if (!lose) {
+			checkCollision();  //Check for collisions among the kings minions
+		}
 		checkWin();  //Check if the impossible has happened
 	}
 	

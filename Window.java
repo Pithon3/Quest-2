@@ -112,7 +112,7 @@ public class Window extends JPanel implements ActionListener{
 			if (!lose) {
 				good2.update();
 			}
-			enemy.update(time());
+			enemy.update(time(), lose);
 			
 			//Draw the...
 			

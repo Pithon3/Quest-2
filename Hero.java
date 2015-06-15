@@ -51,25 +51,25 @@ public class Hero extends Sprite{
 		}
 		
 		if (keycode == KeyEvent.VK_UP) {
-			dy -= 2;
+			dy -= 1;
 		} if (keycode == KeyEvent.VK_DOWN) {
-			dy += 2;
+			dy += 1;
 		} if (keycode == KeyEvent.VK_RIGHT) {
-			dx += 2;
+			dx += 1;
 		} if (keycode == KeyEvent.VK_LEFT) {
-			dx -= 2;
+			dx -= 1;
 		} if (keycode == KeyEvent.VK_SPACE) {
 			sword.strike();
 		}
 		
-		if (dy > 2) {
-			dy = 2;
-		} if (dy < -2) {
-			dy = -2;
-		} if (dx > 2) {
-			dx = 2;
-		} if (dx < -2) {
-			dx = -2;
+		if (dy > 1) {
+			dy = 1;
+		} if (dy < -1) {
+			dy = -1;
+		} if (dx > 1) {
+			dx = 1;
+		} if (dx < -1) {
+			dx = -1;
 		}
 	}
 
@@ -82,13 +82,13 @@ public class Hero extends Sprite{
 		}
 		
 		if (keycode == KeyEvent.VK_UP) {
-			dy += 2;
+			dy += 1;
 		} if (keycode == KeyEvent.VK_DOWN) {
-			dy -= 2;
+			dy -= 1;
 		} if (keycode == KeyEvent.VK_RIGHT) {
-			dx -= 2;
+			dx -= 1;
 		} if (keycode == KeyEvent.VK_LEFT) {
-			dx += 2;
+			dx += 1;
 		}
 	}
 	

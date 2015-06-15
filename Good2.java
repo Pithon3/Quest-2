@@ -1,5 +1,6 @@
 package quest2;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class Good2 {
 	
 	void convertDraggables(ArrayList<Draggable> items, Enemy enemy) {  //Function to convert the Draggables to their separate classes
 		for (int i = 0; i < items.size(); i++) {
-			Draggable convert = items.get(i);
+			Draggable convert = items.get(i);	
 			
 			if (!convert.placed) {
 				//pass
@@ -107,6 +108,14 @@ public class Good2 {
 				
 			}
 		}
+	}
+
+	public void keyPressed(KeyEvent e) {
+		hero.keyPressed(e);		
+	}
+
+	public void keyReleased(KeyEvent e) {
+		hero.keyReleased(e);
 	}
 	
 }

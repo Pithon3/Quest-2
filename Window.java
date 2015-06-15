@@ -26,8 +26,10 @@ public class Window extends JPanel implements ActionListener{
 	
 	private Timer timer;  //A timer for the program to update
 	private int gm;  //The gamemode of the game
+	private boolean lose = false;
 	
 	private WindowFrame frame;  //The frame of the window
+	public JFrame mFrame;
 	private Good1 good1;  //Gamemode 1 good side (Dragging and placing items
 	private Good2 good2;  //Gamemode 2 good side (Fighting and defending from the goblins)
 	private Enemy enemy;  //The controller of the goblins
@@ -59,8 +61,8 @@ public class Window extends JPanel implements ActionListener{
 		good1 = new Good1();
 		good2 = new Good2(good1);
 		
-		//Start the update sequence and timer
 		timer = new Timer(10, this);
+		//Start the update sequence and timer
 		timer.start();
 	}
 	
@@ -107,7 +109,9 @@ public class Window extends JPanel implements ActionListener{
 		//Updating in the 2nd Gamemode
 		if (gm == 2) {
 			//Update the opposing sides
-			good2.update();
+			if (!lose) {
+				good2.update();
+			}
 			enemy.update(time());
 			
 			//Draw the...
@@ -216,6 +220,7 @@ public class Window extends JPanel implements ActionListener{
 						for (int j = 0; j < 3; j++) {
 							Goblin goblin = bram.goblins[j];
 							if (goblin.appear == true) {
+								
 								G.drawImage(goblin.image, (int) goblin.x, (int) goblin.y, this);
 							}
 						}
@@ -233,41 +238,42 @@ public class Window extends JPanel implements ActionListener{
 		//Update for the 5th gamemode (losing)
 		if (gm == 5) {
 			//Create frame for losing
-			JFrame frame = new JFrame("You Lose");
-			JLabel emptyLabel = new JLabel("");
-			emptyLabel.setPreferredSize(new Dimension(300, 100));
-			frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
-
-			//Set stuff about the frame
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.pack();
-			frame.setVisible(true);
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			frame.setResizable(false);
+			if (!lose) {
+				mFrame = new JFrame("You Lose");
+				JLabel emptyLabel = new JLabel("");
+				emptyLabel.setPreferredSize(new Dimension(300, 100));
+				mFrame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
 			
-			//Add content to the frame
-			frame.add(new MiniFrame("YOU LOSE.", Color.RED));
-			
-			//Make the screen mostly blank
-			gm = 7;
+				//Set stuff about the frame
+				mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				mFrame.pack();
+				mFrame.setVisible(true);
+				mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				mFrame.setResizable(false);
+				//Add content to the frame
+				mFrame.add(new MiniFrame("YOU LOSE.", Color.RED));
+			}	
+				
+			lose = true;
+			gm = 2;
 		}
 		
 		if (gm == 6) {
 			//Create frame for winning
-			JFrame frame = new JFrame("You Win!");
+			mFrame = new JFrame("You Win!");
 			JLabel emptyLabel = new JLabel("");
 			emptyLabel.setPreferredSize(new Dimension(300, 100));
-			frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
+			mFrame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
 			
 			//Set stuff about the frame
-			frame.pack();
-			frame.setVisible(true);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			frame.setResizable(false);
+			mFrame.pack();
+			mFrame.setVisible(true);
+			mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			mFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			mFrame.setResizable(false);
 			
 			//Add content to the frame
-			frame.add(new MiniFrame("YOU WIN!!", Color.BLUE));
+			mFrame.add(new MiniFrame("YOU WIN!!", Color.BLUE));
 			
 			//Continue showing the finishing doom of the goblins
 			gm = 2;
@@ -315,22 +321,24 @@ public class Window extends JPanel implements ActionListener{
 		return time3;
 	}
 	
+	public void gm2() {
+		good2.convertDraggables(good1.items, enemy);
+		enemy = new Enemy(good2, this);
+		enemy.start(time());
+		gm = 2;
+	}
+	
 	private class TAdapter extends KeyAdapter {  //The keystroke listener
 		
+		@Override
 		public void keyPressed(KeyEvent e) {
 			int keycode = e.getKeyCode();
 			
-			//Controlling the hero
-			if (keycode == KeyEvent.VK_UP) {
-				good2.hero.up();				
-			} if (keycode == KeyEvent.VK_DOWN) {
-				good2.hero.down();
-			} if (keycode == KeyEvent.VK_RIGHT) {
-				good2.hero.right();
-			} if (keycode == KeyEvent.VK_LEFT) {
-				good2.hero.left();
-			} if (keycode == KeyEvent.VK_SPACE) {
-				good2.hero.sword.strike();
+			try {
+				good2.hero.getX();
+				good2.keyPressed(e);
+			} catch (Exception E) {
+				//pass
 			}
 			
 			//Key commands
@@ -340,17 +348,31 @@ public class Window extends JPanel implements ActionListener{
 				WindowFrame.replay(frame.doExit);
 			} if (keycode == KeyEvent.VK_O) {
 				WindowFrame.play();
-			
+			} if (keycode == KeyEvent.VK_ENTER) {
+				if (gm == 1) {
+					gm2();
+				}
+			}
+				
 			//fast forward
-			} if (keycode == KeyEvent.VK_F) {
+			if (keycode == KeyEvent.VK_F) {
 				rate ++;
-				for (int i = 0; i < 20; i++) {  //Update things a lot faster if the F key is pressed
+				for (int i = 0; i < 10; i++) {  //Update things a lot faster if the F key is pressed
 					WindowFrame.window.paint(g);
 				}
 			} else {
 				rate = 0;  //Set the rate back to 0 if it is not pressed
 			}
 
+		}
+		
+		public void keyReleased (KeyEvent e) {
+			try {
+				good2.hero.getX();
+				good2.keyReleased(e);
+			} catch (Exception E) {
+				//pass
+			}
 		}
 		
 	}

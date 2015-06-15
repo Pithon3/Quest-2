@@ -122,7 +122,6 @@ public class Goblin extends Sprite{
 		if(checkCollision(sword.x, sword.y, sword.xl, sword.yl)) {
 			dx = 0;
 			lives -= sword.damage;
-			x -= 50;
 		}		
 	}
 	

@@ -64,11 +64,13 @@ public class WindowFrame extends JFrame{
 	
 	public static void replay(boolean doExit) {  //To replay the game, and close other window, and make sure it has the right doExit value
 		frame.dispose();  //Close the old game
+		window.mFrame.dispose();
 		frame = new WindowFrame(doExit);  // Create new game
 	}
 	
 	public static void exit() {  //Exit the program
 		frame.dispose();  //Close the window
+		window.mFrame.dispose();
 		System.exit(0);  //Terminate the program
 	}
 	

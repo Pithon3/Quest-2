@@ -13,11 +13,9 @@ public class Good1 {
 	private int walls = 4;  //Set limit of 4 walls
 	int gm = 1;
 	
+	Draggable draggee = null;
 	ArrayList<Draggable> items = new ArrayList<Draggable>();  //List of all 20 different defences
-	
-	Draggable inplacement;  //The field that represents the defence being placed
-	Draggable blankDraggable = new Draggable("/quest2/lake.gif", -300, -300, 34, 70, "null", this);  //A draggable item that can't be placed, it is used when there is nothing else being placed
-	
+		
 	public Good1() {
 		//Create starting defences
 		createLake();
@@ -25,91 +23,89 @@ public class Good1 {
 		createArcher();
 		createWarrior();
 		createWall();
-		
-		inplacement = blankDraggable;  //Set inplacement to nothing, or the Draggable that represents nothing
 	}
 	
 	public void createLake() {  //Function for creating lakes
 		if (lakes > 0) {
-			items.add(new Draggable("/quest2/lake.gif", 20, 20, 34, 70, "lake", this));
+			items.add(new Draggable("/quest2/lake.gif", 20, 450, 34, 70, "lake", this));
 		}
 	}
 	
 	public void createCrater() {  //Function for creating craters
 		if (craters > 0) {
-			items.add(new Draggable("/quest2/crater.gif", 120, 20, 38, 62, "crater", this));
+			items.add(new Draggable("/quest2/crater.gif", 120, 450, 38, 62, "crater", this));
 		}
 		
 	}
 	
 	public void createArcher() {  //Function for creating archers
 		if (archers > 0) {
-			items.add(new Draggable("/quest2/archer.gif", 220, 20, 39, 66, "archer", this));
+			items.add(new Draggable("/quest2/archer.gif", 220, 450, 39, 66, "archer", this));
 		}
 	}
 	
 	public void createWarrior() {  //Function for creating warriors
 		if (warriors > 0) {
-			items.add(new Draggable("/quest2/warrior.gif", 320, 20, 40, 62, "warrior", this));
+			items.add(new Draggable("/quest2/warrior.gif", 320, 450, 40, 62, "warrior", this));
 		}
 	}
 	
 	public void createWall() {  //Function for creating walls
 		if (walls > 0) {
-			items.add(new Draggable("/quest2/wall.png", 420, 20, 65, 86, "wall", this));
+			items.add(new Draggable("/quest2/wall.png", 420, 450, 121, 75, "wall", this));
 		}
 	}
 
 	public void update() {  //Update things around the fort
 		for (int i = 0; i < items.size(); i++) {  //For the ammount of defences that are shown...
-			items.get(i).Update2();  //...Update them
+			if (items.get(i).placed) {
+				items.get(i).Update2();  //...Update them
+			}
 		}
 	}
-
-
+	
 	public void mouseDragged(MouseEvent e) {  //Fuction that is called when the mouse is dragged
 		for (int i = 0; i < items.size(); i++) {
 			items.get(i).mouseDragged(e);  //Tell the defences that are shown that the mouse has been dragged
 		}
-	}
-
-	public void mouseClicked(MouseEvent e) {  //Function that is called when the mouse is clicked
-		for (int i = 0; i < items.size(); i++) {
-			items.get(i).mouseClicked(e);  //Tell the defences that are shown that the mouse has been clicked
+		try {
+			draggee.mouseUpdate(e.getX(), e.getY());
+		} catch (Exception E) {
+			//pass
 		}
-		checkButton(e);  //Check if the go on button has been clicked
-		
 	}
 	
-	public void changeInPlacement(Draggable d) {  //Changes the Draggable that is in place to the Draggable d
-		if (d == null) {
-			d = blankDraggable;
+	public void mouseReleased(MouseEvent e) {
+		try {
+			draggee.mouseReleased(e);
+		} catch (Exception E) {
+			//pass
 		}
-		
-		//Changing the inplacement Draggable to the new Draggable
-		if (inplacement == blankDraggable) {
-			inplacement = d;
-		} else {
-			checkName(d);
-			inplacement = blankDraggable;
-		}
-		
 	}
-
-	public Draggable getInPlacement() {  //Returns the Draggable that is in placement right now (Real Draggable, or blankDraggable)
-		return inplacement;
+	
+	public void setDraggee (Draggable d) {
+		draggee = d;
+	}
+	
+	public void createNewDraggable(Draggable d) {
+		minusCount(d.name);
+		checkName(d);
+	}
+	
+	public Draggable getDraggee() {
+		return draggee;
 	}
 	
 	public void checkName(Draggable d) {  //Checks the name of the Draggable and creates a new one of that type of Draggable
-		if (inplacement.name == "lake") {
+		if (d.name == "lake") {
 			createLake();
-		} if (inplacement.name == "crater") {
+		} if (d.name == "crater") {
 			createCrater();
-		} if (inplacement.name == "archer") {
+		} if (d.name == "archer") {
 			createArcher();
-		} if (inplacement.name == "warrior") {
+		} if (d.name == "warrior") {
 			createWarrior();
-		} if (inplacement.name == "wall") {
+		} if (d.name == "wall") {
 			createWall();
 		}
 	}
@@ -132,12 +128,10 @@ public class Good1 {
 		int mx = e.getX();
 		int my = e.getY();
 		
-		
-		
-		if (mx > 620) {
+		if (mx > 645) {
 			if (my > 420) {
 				if (mx < 720) {
-					if (my < 480) {
+					if (my < 440) {
 						gm = 2;
 					}
 				}

@@ -11,7 +11,7 @@ public class Archer extends Sprite{
 	int arrowtimer = 201;
 	
 	Good2 master;
-	Sprite target = null;
+	Sprite target = Window.blankSprite;
 	int num;
 	int facing = 0;
 	
@@ -26,14 +26,8 @@ public class Archer extends Sprite{
 		arrowtimer -= 50 * num;
 	}
 	
-	public void Update(ArrayList<Sprite> targets, Sprite target) {
+	public void Update(ArrayList<Sprite> targets) {
 		checkLives();
-		
-		if (target != Window.blankSprite) {
-			ptarget = target;
-		} else {
-			ptarget = null;
-		}
 		
 		arrowtimer++;
 		
@@ -74,13 +68,17 @@ public class Archer extends Sprite{
 						} else {
 							arrows.add(new Arrow("/quest2/arrow.gif", x + 15, y + 10, 32, 7, xaim, target.y, this, facing));
 						}
+						
+						target = Window.blankSprite;
 				
 						break;
 					
-					} catch (Exception e) { }
+					} catch (Exception e) { 
+						//pass
+					}
 				}
 				
-			} else { 
+			}/* else { 
 				boolean tmoving = target.moving;
 				double dis = Math.sqrt(Math.pow(x-target.x, 2) + Math.pow(y-target.y, 2));
 				
@@ -109,7 +107,7 @@ public class Archer extends Sprite{
 				} else {
 					arrows.add(new Arrow("/quest2/arrow.gif", x + 15, y + 10, 32, 7, xaim, target.y, this, facing));
 				}
-			}
+			}*/
 		
 		}
 		

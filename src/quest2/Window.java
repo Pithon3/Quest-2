@@ -72,6 +72,9 @@ public class Window extends JPanel implements ActionListener{
 		
 		Graphics2D G = (Graphics2D)g;  //Initialize Graphics2D        
 		
+		G.setColor(new Color(0, 75, 200));
+		G.fillRect(0, 440, 721, 121);
+		
 		//What to do during the first gamemode
 		if (gm == 1) {
 			
@@ -94,7 +97,12 @@ public class Window extends JPanel implements ActionListener{
 			}
 			
 			//Make the text for the go on button
-			G.drawString("Go on --->", 620, 435);
+			
+			G.drawString("Go on --->", 645, 435);
+			G.setColor(Color.black);
+			G.drawRect(640, 420, 80, 20);
+			
+			G.drawLine(0, 440, 720, 440);
 			
 			//Update the placeable items
 			for (int i = 0; i < good1.items.size(); i++) {
@@ -390,12 +398,18 @@ public class Window extends JPanel implements ActionListener{
 	private class MAdapter extends MouseAdapter {  //Listens for the mouse Clicking
 		
 		public void mouseClicked(MouseEvent e) {
-			good1.mouseClicked(e);  //Tell good1 the mouse clicked
+			good1.checkButton(e);
 			good2.mouseClicked(e);
 			if (enemy != null) {
 				enemy.mouseClicked(e);
 			}
 		}
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			good1.mouseReleased(e);
+		}
+		
 	}
 	
 	private class MiniFrame extends JPanel {  //A miniframe for multiple purposes
@@ -424,6 +438,10 @@ public class Window extends JPanel implements ActionListener{
 			G.drawString(Message, 135, 45);
 		}
 		
+	}
+	
+	public static void print(String s) {
+		System.out.println(s);
 	}
 	
 }

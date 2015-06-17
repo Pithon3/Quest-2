@@ -43,7 +43,7 @@ public class WindowFrame extends JFrame{
 		
 	    //Set stuff for the window
     	setResizable(false);  //Make sure that people can't distort the content
-    	setSize(720, 480);  //Set the size of the window
+    	setSize(720, 560);  //Set the size of the window
     	setTitle("Quest 2");  //Set the title of the window so people know what they are playing
     	if (BufImage != null) {
     	    ImageIcon ii = new ImageIcon(BufImage);  //get a ImageIcon from the buffered image

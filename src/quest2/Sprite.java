@@ -86,8 +86,8 @@ public class Sprite extends MouseAdapter{
 
 	
 	protected boolean checkOutOfRange() {  //Check if the sprite is out if range, and if so, move it back in range
-		int xra = 720 - xl;
-		int yra = 480 - yl;
+		int xra = 713 - xl;
+		int yra = 440 - yl;
 		
 		boolean ret = false;
 		

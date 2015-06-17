@@ -26,7 +26,7 @@ public class Enemy {
 	ArrayList<Sprite> goblinplayers = new ArrayList<Sprite>();
 	ArrayList<Sprite> targets = new ArrayList<Sprite>();
 	
-	Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
+	//Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
 	
 	double stime;  //The start time of the attack
 	double time;  //The updated current time
@@ -74,7 +74,7 @@ public class Enemy {
 		time = utime - stime;  //Calculate the time since stime was assigned
 		this.lose = lose;
 		
-		good.updateEnemyList(targets, archert);
+		good.updateEnemyList(targets);
 		
 		if (time > ntime) {  //If the time is greater than the time is has to be before the next foe comes...
 			try {
@@ -297,11 +297,11 @@ public class Enemy {
 			
 		}
 		
-		for (int i = 0; i < 4; i++) {
+		/*for (int i = 0; i < 4; i++) {
 			if (archert[i] == goblin) {
 				archert[i] = Window.blankSprite;
 			}
-		}
+		}*/
 	}
 	
 	public void add (Sprite goblin) {
@@ -309,7 +309,9 @@ public class Enemy {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (good.directoree != Window.blankSprite) {
+		//Futute feature
+		
+		/*if (good.directoree != Window.blankSprite) {
 			for (int i = 0; i < goblinplayers.size(); i++) {
 				Sprite s = goblinplayers.get(i);
 				if (s.checkCollision(e.getX(), e.getY(), 1, 1)) {
@@ -320,7 +322,7 @@ public class Enemy {
 				}
 			}
 			
-		}
+		}*/
 	}
 	
 }

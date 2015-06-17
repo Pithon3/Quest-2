@@ -26,11 +26,10 @@ public class Good2 {
 	
 	public Hero hero;  //Create the hero of the game
 	
-	ArrayList<Sprite> gtargets = new ArrayList<Sprite>();
+		ArrayList<Sprite> gtargets = new ArrayList<Sprite>();
 	
-	Sprite directoree = Window.blankSprite;
-	
-	Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
+	//Sprite directoree = Window.blankSprite;
+	//Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
 
 	
 	public Good2(Good1 g1) {
@@ -76,9 +75,9 @@ public class Good2 {
 		} for (int j = 0; j < ncraters; j++) {
 			craters[j].Update();
 		} for (int k = 0; k < narchers; k++) {
-			archers[k].Update(gtargets, archert[k]);			
+			archers[k].Update(gtargets);			
 		} for (int l = 0; l < nwarriors; l++) {
-			warriors[l].Update();
+			warriors[l].Update(gtargets);
 		} for (int m = 0; m < nwalls; m++) {
 			walls[m].Update();
 		}
@@ -86,14 +85,15 @@ public class Good2 {
 		
 	}
 	
-	public void updateEnemyList(ArrayList<Sprite> s, Sprite[] archert) {
+	public void updateEnemyList(ArrayList<Sprite> s) {
 		gtargets = s;
-		this.archert = archert;
 
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		for (int i = 0; i < 4; i++) {
+		//Future feature
+		
+		/*for (int i = 0; i < 4; i++) {
 			try {
 				if (archers[i].checkCollision(e.getX(), e.getY(), 1, 1)) {
 					if (archers[i].directed == false) {
@@ -107,7 +107,7 @@ public class Good2 {
 			} catch (Exception E) {
 				
 			}
-		}
+		}*/
 	}
 
 	public void keyPressed(KeyEvent e) {

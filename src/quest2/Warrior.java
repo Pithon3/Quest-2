@@ -1,5 +1,7 @@
 package quest2;
 
+import java.util.ArrayList;
+
 public class Warrior extends Sprite{
 
 	public boolean appear = true;  //Boolean variable that represent if the sprite is supposed to be shown
@@ -12,9 +14,12 @@ public class Warrior extends Sprite{
 		super(filepath, x, y, xl, yl);
 	}
 	
-	@Override
-	public void Update() {
+	public void Update(ArrayList<Sprite> targets) {
 		checkLives();  //Check the lives of the crater to see if it should still be living
+		
+		
+		
+		checkOutOfRange();
 	}
 	
 	public void defend(int life) {  //Function that does the damage on the crater

@@ -1,34 +1,30 @@
 package quest2;
 
-public class BatteringRam extends Sprite{
+import java.util.ArrayList;
+
+public class BatteringRam extends GoblinPlayer{
 	
 	Enemy master;  //The field for the enemy class
-	public boolean appear = false;  //Boolean variable that represent if the sprite is supposed to be shown
-
 	
 	boolean bram = true;  //The boolean variable that represents if the battering ram is still a battering ram
-	Goblin[] goblins = new Goblin[3];  //Create 3 goblins that will appear when the battering ram hits a lake, crater, or wall
+	ArrayList<Goblin> goblins = new ArrayList<Goblin>();  //Create 3 goblins that will appear when the battering ram hits a lake, crater, or wall
 	
 	int lives = 3;  //Variable for the amount of lives the sprite has
 	int damage = 2;  //Variable for the amount of damage the sprite does
 	public boolean targeted = false;
 	
 	public BatteringRam(int x, int y, int xl, int yl, String path, Enemy enemy) {
-		super(path, x, y, xl, yl);
+		super(path, "battering ram", x, y, xl, yl);
 		moving = true;
+		appear = true;
 		master = enemy;  //Assign master to the enemy argument
-		name = "GBatteringRam";
 	}
 	
 	@Override
 	public void Update() {
-		if (bram == true) {  //If the battering ram is still a battering ram...
-			//...Move it
-			x += dx;
-			y += dy;
-		} else {  //Otherwise...
+		if (bram != true) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].Update();  //...Update the goblins that have appeared
+				goblins.get(i).Update3();  //...Update the goblins that have appeared
 			}
 		}
 		
@@ -37,6 +33,7 @@ public class BatteringRam extends Sprite{
 				appear = false;  //Change appear to false if it is not a battering ram
 			} else {
 				dx = 1;  //Set the X-speed to 1 if it is alive
+				moving = true;
 			}
 		} else {
 			dx = 0;  //Otherwise set it to 0
@@ -51,10 +48,11 @@ public class BatteringRam extends Sprite{
 			if (bram == true) {
 				goblin();
 				lake.defend();
+				
 			}
 		} if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkLake(lake);
+				goblins.get(i).checkLake(lake);
 			}
 		}
 	}
@@ -68,7 +66,7 @@ public class BatteringRam extends Sprite{
 			}
 		} if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkCrater(crater);
+				goblins.get(i).checkCrater(crater);
 			}
 		}
 	}
@@ -80,7 +78,7 @@ public class BatteringRam extends Sprite{
 			archer.defend(damage);
 		} if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkArcher(archer);
+				goblins.get(i).checkArcher(archer);
 			}
 		}
 	}
@@ -92,7 +90,7 @@ public class BatteringRam extends Sprite{
 			warrior.defend(damage);
 		} if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkWarrior(warrior);
+				goblins.get(i).checkWarrior(warrior);
 			}
 		}
 	}
@@ -106,7 +104,7 @@ public class BatteringRam extends Sprite{
 			}
 		} if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkWall(wall);
+				goblins.get(i).checkWall(wall);
 			}
 		}
 	}
@@ -122,7 +120,7 @@ public class BatteringRam extends Sprite{
 		
 		if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkArrow(arrow);
+				goblins.get(i).checkArrow(arrow);
 			}
 		}
 	}
@@ -134,8 +132,8 @@ public class BatteringRam extends Sprite{
 	void goblin() {
 		bram = false;
 		for (int i = 0; i < 3; i++) {
-			goblins[i] = new Goblin(x - 50, y + (48 * (i - 1)), 40, 62, "/quest2/goblin.gif", master, true);
-			master.add(goblins[i]);
+			goblins.add(new Goblin(x - 50, y + (48 * (i - 1)), 40, 62, "/quest2/goblin.gif", master, this));
+			master.add(goblins.get(i));
 		}
 	}
 	
@@ -159,7 +157,7 @@ public class BatteringRam extends Sprite{
 		
 		if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkHero(hero);
+				goblins.get(i).checkHero(hero);
 			}
 		}
 		
@@ -170,14 +168,19 @@ public class BatteringRam extends Sprite{
 			dx = 0;
 			if (bram == true) {
 				lives -= sword.damage;
+				sword.defend(3);
 			}
 		}
 		
 		if (bram == false) {
 			for (int i = 0; i < 3; i++) {
-				goblins[i].checkSword(sword);
+				goblins.get(i).checkSword(sword);
 			}
 		}		
+	}
+	
+	public void remove (Goblin g) {
+		goblins.remove(g);
 	}
 	
 }

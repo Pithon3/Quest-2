@@ -1,6 +1,6 @@
 package quest2;
 
-public class GoblinArcher extends Sprite{
+public class GoblinArcher extends GoblinPlayer{
 	
 	int lives = 1;  //Variable for the amount of lives the sprite has
 	int damage = 0;  //Variable for the amount of damage the sprite does
@@ -8,25 +8,19 @@ public class GoblinArcher extends Sprite{
 	EnemyArrow arrow = new EnemyArrow("/quest2/enemyarrow.gif", x, y, 32, 7, this);  //Initialize the arrow of the archer
 	
 	Enemy master;  //The field for the enemy class
-	public boolean appear = false;  //Boolean variable that represent if the sprite is supposed to be shown
 	public boolean targeted = false;
 	
 	public GoblinArcher(int x, int y, int xl, int yl, String path, Enemy enemy) {
-		super(path, x, y, xl, yl);
+		super(path, "archer", x, y, xl, yl);
 		moving = true;
+		appear = true;
 		master = enemy;  //Assign master to the enemy argument
-		name = "GArcher";
 		
 	}
 	
 	@Override
 	public void Update() {
 		arrow.Update();  //Update the arrow
-		
-		//Move the goblin archer
-		x += dx;
-		y += dy;
-		
 		
 		if (appear == true) {
 			if (x < 0){
@@ -110,6 +104,7 @@ public class GoblinArcher extends Sprite{
 			dx = 0;
 			lives -= sword.damage;
 			x -= 50;
+			sword.defend(1);
 		}		
 	}
 	

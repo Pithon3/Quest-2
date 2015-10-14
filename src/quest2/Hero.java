@@ -12,12 +12,13 @@ public class Hero extends Sprite{
 	HeroSword sword = new HeroSword("/quest2/herosword.gif", x, y, 22, 27, this);  //create the hero's sword
 	
 	public Hero(String path, int x, int y, int xl, int yl) {
-		super(path, x, y, xl, yl);
+		super(path, "Hero", x, y, xl, yl);
 	}
 	
 	public void Update() {
-		sword.Update();  //Update the sword
-		checkLives();  //Check the lives of the hero
+		if (sword.appear) {
+			sword.Update();  //Update the sword
+		}
 		
 		if (appear) {
 			x += dx;
@@ -29,17 +30,22 @@ public class Hero extends Sprite{
 		}
 	}
 	
-	private void checkLives() {
+	private boolean checkLives() {
 		if (lives < 1) {  //If the hero has 0 or less lives...
 			appear = false;  //Dissapear
 			x = -300;
 			y = -300;
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
-	public void defend(int life) {  //A function for taking damage
+	public boolean defend(int life) {  //A function for taking damage
 		x += 50;  //Move back
 		lives -= life;  //take damage
+		
+		return checkLives();
 	}
 
 	public void keyPressed(KeyEvent e) {

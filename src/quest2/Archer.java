@@ -17,8 +17,8 @@ public class Archer extends Sprite{
 	
 	Sprite ptarget = null;
 	
-	public Archer(Good2 g, double x, double y, int xlong, int ylong, String filepath, int n) {
-		super(filepath, x, y, xlong, ylong);
+	public Archer(Good2 g, double x, double y, int xlong, int ylong, String filepath, int n, String name) {
+		super(filepath, name, x, y, xlong, ylong);
 		name = "Archer";
 		master = g;
 		num = n;
@@ -116,17 +116,22 @@ public class Archer extends Sprite{
 		}
 	}
 	
-	public void checkLives() {
+	public boolean checkLives() {
 		if (lives < 1) {  //If the crater has less than one life (0)...
 			appear = false;  //...Disappear
 			x = -300;
 			y = -300;
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
-	public void defend(int life) {  //Function that does the damage on the Archer
+	public boolean defend(int life) {  //Function that does the damage on the Archer
 		x += 50;  //Move it back
 		lives -= life;  //Deal damage
+		
+		return checkLives();
 	}
 	
 	public void setTarget(Sprite tar) {

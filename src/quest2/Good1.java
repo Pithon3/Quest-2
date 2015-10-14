@@ -16,7 +16,11 @@ public class Good1 {
 	Draggable draggee = null;
 	ArrayList<Draggable> items = new ArrayList<Draggable>();  //List of all 20 different defences
 		
-	public Good1() {
+	Window master;
+	
+	public Good1(Window w) {
+		this.master = w;
+		
 		//Create starting defences
 		createLake();
 		createCrater();
@@ -27,32 +31,32 @@ public class Good1 {
 	
 	public void createLake() {  //Function for creating lakes
 		if (lakes > 0) {
-			items.add(new Draggable("/quest2/lake.gif", 20, 450, 34, 70, "lake", this));
+			items.add(new Draggable("/quest2/lake.gif", 20, 450, 34, 70, "Lake", this));
 		}
 	}
 	
 	public void createCrater() {  //Function for creating craters
 		if (craters > 0) {
-			items.add(new Draggable("/quest2/crater.gif", 120, 450, 38, 62, "crater", this));
+			items.add(new Draggable("/quest2/crater.gif", 120, 450, 38, 62, "Crater", this));
 		}
 		
 	}
 	
 	public void createArcher() {  //Function for creating archers
 		if (archers > 0) {
-			items.add(new Draggable("/quest2/archer.gif", 220, 450, 39, 66, "archer", this));
+			items.add(new Draggable("/quest2/archer.gif", 220, 450, 39, 66, "Archer", this));
 		}
 	}
 	
 	public void createWarrior() {  //Function for creating warriors
 		if (warriors > 0) {
-			items.add(new Draggable("/quest2/warrior.gif", 320, 450, 40, 62, "warrior", this));
+			items.add(new Draggable("/quest2/warrior.gif", 320, 450, 40, 62, "Warrior", this));
 		}
 	}
 	
 	public void createWall() {  //Function for creating walls
 		if (walls > 0) {
-			items.add(new Draggable("/quest2/wall.png", 420, 450, 121, 75, "wall", this));
+			items.add(new Draggable("/quest2/wall.png", 420, 450, 121, 75, "Wall", this));
 		}
 	}
 
@@ -81,6 +85,7 @@ public class Good1 {
 		} catch (Exception E) {
 			//pass
 		}
+		checkReleased(e);
 	}
 	
 	public void setDraggee (Draggable d) {
@@ -97,45 +102,43 @@ public class Good1 {
 	}
 	
 	public void checkName(Draggable d) {  //Checks the name of the Draggable and creates a new one of that type of Draggable
-		if (d.name == "lake") {
+		if (d.name == "Lake") {
 			createLake();
-		} if (d.name == "crater") {
+		} if (d.name == "Crater") {
 			createCrater();
-		} if (d.name == "archer") {
+		} if (d.name == "Archer") {
 			createArcher();
-		} if (d.name == "warrior") {
+		} if (d.name == "Warrior") {
 			createWarrior();
-		} if (d.name == "wall") {
+		} if (d.name == "Wall") {
 			createWall();
 		}
 	}
 	
 	public void minusCount(String name) {  //Checks the name of the Draggable and minuses the count of that Draggable
-		if (name == "lake") {
+		if (name == "Lake") {
 			lakes--;
-		} if (name == "crater") {
+		} if (name == "Crater") {
 			craters--;
-		} if (name == "archer") {
+		} if (name == "Archer") {
 			archers--;
-		} if (name == "warrior") {
+		} if (name == "Warrior") {
 			warriors--;
-		} if (name == "wall") {
+		} if (name == "Wall") {
 			walls--;
 		}
 	}
 	
 	public void checkButton(MouseEvent e) {  //Checks if the Go On button has been clicked
-		int mx = e.getX();
-		int my = e.getY();
-		
-		if (mx > 645) {
-			if (my > 420) {
-				if (mx < 720) {
-					if (my < 440) {
-						gm = 2;
-					}
-				}
-			}
+		if (Sprite.checkCollision(621, 451, 80, 69, e.getX(), e.getY(), 1, 1)) {
+			master.clicked();
+		}
+	}
+	
+	public void checkReleased(MouseEvent e) {
+		if (Sprite.checkCollision(621, 451, 80, 69, e.getX(), e.getY(), 1, 1) && master.click()) {
+			gm = 2;
+			master.clicked();
 		}
 	}
 	

@@ -8,8 +8,8 @@ public class Lake extends Sprite{
 	int damage = 0;  //Variable for the amount of damage the sprite does
 	int lives = 2;  //Variable for the amount of lives the sprite has
 
-	public Lake(double x, double y, int xl, int yl, String filepath) {
-		super(filepath, x, y, xl, yl);
+	public Lake(double x, double y, int xl, int yl, String filepath,  String n) {
+		super(filepath, n, x, y, xl, yl);
 	}
 	
 	@Override

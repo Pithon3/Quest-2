@@ -7,23 +7,20 @@ import java.util.Random;
 
 public class Enemy {
 	
-	Good2 good;  //A copy of an arch enemy
+	Good2 good;  //Arch enemy
 	
-	Goblin[] goblins = new Goblin[22];  //Initiate 22 goblins
-	int ngoblins = 0;  //Set the number of goblins to 0
-	
-	GoblinArcher[] garchers = new GoblinArcher[5];  //Initiate 5 goblin archers
-	int ngarchers = 0;  //Set the number of archers to 0
-	
-	BatteringRam[] brams = new BatteringRam[8];  //Initiate 8 battering rams
-	int nbrams = 0;  //Set the number of battering rams to 0
+	ArrayList<Goblin> goblins = new ArrayList<Goblin>();
+	ArrayList<GoblinArcher> garchers = new ArrayList<GoblinArcher>();
+	ArrayList<BatteringRam> brams = new ArrayList<BatteringRam>();
+	ArrayList<GiantGoblin> ggoblins = new ArrayList<GiantGoblin>();
 	
 	KingGoblin kgoblin;  //Initiate the goblin king
+	boolean king = false;
 	
-	//Set the order of the things that appear
-	String[] order = new String[]{"goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "battering ram", "battering ram", "battering ram", "battering ram", "battering ram", "archer", "archer", "archer", "archer", "archer", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "goblin", "battering ram", "battering ram", "battering ram", "king"};
+	ArrayList<String> order = new ArrayList<String>();
+	ArrayList<Integer> intOrder = new ArrayList<Integer>();
 	
-	ArrayList<Sprite> goblinplayers = new ArrayList<Sprite>();
+	ArrayList<GoblinPlayer> goblinplayers = new ArrayList<GoblinPlayer>();
 	ArrayList<Sprite> targets = new ArrayList<Sprite>();
 	
 	//Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
@@ -42,28 +39,9 @@ public class Enemy {
 		this.good = good;  //Assign good to something
 		this.master = mas;  //Let the enemy know who is the master
 		
-		//Create actual goblins in the list of goblins
-		for (int i = 0; i < 22; i++) {
-		    int randnum = rand.nextInt(9) * 48;
-		    goblins[i] = new Goblin(-40, randnum, 40, 62, "/quest2/goblin.gif", this);
+		for (int i = 0; i < 7; i++) {
+			sendArmy("goblin", 55 * ((int) (Math.random() * 7)) + 20);
 		}
-
-		//Create actual battering rams in the list of battering rams
-		for (int i = 0; i < 8; i++) {
-			int randnum = rand.nextInt(9) * 48;
-			brams[i] = new BatteringRam(-94, randnum, 94, 63, "/quest2/batteringram.gif", this);
-		}
-
-		//Create actual goblin archers in the list of goblin archers
-		for (int i = 0; i < 5; i++) {
-			int randnum = rand.nextInt(9) * 48;
-			garchers[i] = new GoblinArcher(-39, randnum, 39, 66, "/quest2/goblinarcher.gif", this);
-		}
-
-		//Create an actual king goblin
-		int randnum = rand.nextInt(9) * 48;
-		kgoblin = new KingGoblin(-40, randnum, 40, 67, "/quest2/kinggoblin.gif", this);
-	    				
 	}
 	
 	public void start(long starttime) {
@@ -75,74 +53,98 @@ public class Enemy {
 		this.lose = lose;
 		
 		good.updateEnemyList(targets);
-		
-		if (time > ntime) {  //If the time is greater than the time is has to be before the next foe comes...
+
+		//if (time > ntime) {  //If the time is greater than the time is has to be before the next foe comes...
 			try {
-				String name = order[(int) (ntime / 2)];  //...Then calculate what the next foe is based on the order and make it come
+				String name = order.get(0);  //...Then calculate what the next foe is based on the order and make it come
+			    int num = intOrder.get(0);
+				
 				if (name == "goblin") {
-					goblins[ngoblins].appear();
-					goblinplayers.add(goblins[ngoblins]);
-					goblins[ngoblins].targeted = true;
-					targets.add(goblins[ngoblins]);
-					ngoblins ++;
-				} if (name == "battering ram") {
-					brams[nbrams].appear();
-					goblinplayers.add(brams[nbrams]);
-					brams[nbrams].targeted = true;
-					targets.add(brams[nbrams]);
-					nbrams ++;
-				} if (name == "archer") {
-					garchers[ngarchers].appear();
-					goblinplayers.add(garchers[ngarchers]);
-					garchers[ngarchers].targeted = true;
-					targets.add(garchers[ngarchers]);
-					ngarchers ++;
-				} if (name == "king") {
-					kgoblin.appear();
-					kgoblin.targeted = true;
+					Goblin g = new Goblin(-40, num, 40, 62, "/quest2/goblin.gif", this);
+					goblins.add(g);
+					goblinplayers.add(g);
+					targets.add(g);
+				} 
+				
+				if (name == "battering ram") {
+					BatteringRam b = new BatteringRam(-94, num, 94, 63, "/quest2/batteringram.gif", this);
+					brams.add(b);
+					goblinplayers.add(b);
+					targets.add(b);
+				} 
+				
+				if (name == "archer") {
+					GoblinArcher a = new GoblinArcher(-39, num, 39, 66, "/quest2/goblinarcher.gif", this);
+					garchers.add(a);
+					goblinplayers.add(a);
+					targets.add(a);
+				} 
+				
+				if (name == "giant goblin") {
+					GiantGoblin g = new GiantGoblin(-80, num, 80, 122, "/quest2/giantgoblin.png", this);
+					ggoblins.add(g);
+					goblinplayers.add(g);
+					targets.add(g);
+				}
+				
+				if (name == "king") {
+					kgoblin = new KingGoblin(-40, num, 40, 67, "/quest2/kinggoblin.gif", this);
 					targets.add(kgoblin);
 					goblinplayers.add(kgoblin);
 				}
 				
+				order.remove(name);
+				intOrder.remove(num);
+				
 			} catch(Exception e) {
 				
 			}
-			ntime += 2;
-		} 
+		//} 
 		
 		//Update the goblins and check if they're in the fort
-		for (int i = 0; i < 22; i++) {
-			Goblin goblin = goblins[i];
-			
-			goblin.Update();
-			if (goblins[i].x > 720) {
+		for (int i = 0; i < goblins.size(); i++) {
+			Goblin goblin = goblins.get(i);
+			goblin.Update3();
+			if (goblin.x > 720) {
 				master.lose();
 			}
 			
 		} 
 		
 		//Update the goblin archers and check if they're in the fort
-		for (int i = 0; i < 5; i++) {
-			garchers[i].Update();
-			if (garchers[i].x > 720) {
+		for (int i = 0; i < garchers.size(); i++) {
+			GoblinArcher archer = garchers.get(i);
+			archer.Update3();
+			if (garchers.get(i).x > 720) {
 				master.lose();
 			}
 		} 
 		
 		//Update the battering rams and check if they're in the fort
-		for (int i = 0; i < 8; i++) {
-			brams[i].Update();
-			if (brams[i].x > 720) {
+		for (int i = 0; i < brams.size(); i++) {
+			brams.get(i).Update3();
+			if (brams.get(i).x > 720) {
+				master.lose();
+			}
+		}
+		
+		for (int i = 0; i < ggoblins.size(); i++) {
+			ggoblins.get(i).Update3();
+			if (ggoblins.get(i).x > 720) {
 				master.lose();
 			}
 		}
 		
 		//Update the king goblin and check if it's in the fort
-		kgoblin.Update();
-		if (kgoblin.x > 720) {
-			master.lose();
+		try {
+			kgoblin.Update3();
+			if (kgoblin.x > 720) {
+				master.lose();
+			}
+		} catch (Exception e) {
+			//pass
 		}
-		
+			
 		if (!lose) {
 			checkCollision();  //Check for collisions among the kings minions
 		}
@@ -151,135 +153,62 @@ public class Enemy {
 	
 
 	public void checkCollision() {  //Check each defense against each foe
-		//Check Lake
-		for(int i = 0; i < good.nlakes; i++) {
-			Lake lake = good.lakes[i];
-			
-			for (int j = 0; j < 22; j++) {
-				goblins[j].checkLake(lake);
-			} for (int j = 0; j < 5; j++) {
-				garchers[j].checkLake(lake);
-			} for (int j = 0; j < 8; j++) {
-				brams[j].checkLake(lake);
-			}
-			kgoblin.checkLake(lake);
 		
-		//Check Crater
-		} for(int j = 0; j < good.ncraters; j++) {
-			Crater crater = good.craters[j];
+		for (int i = 0; i < goblinplayers.size(); i++) {
 			
-			for (int i = 0; i < 22; i++) {
-				goblins[i].checkCrater(crater);
-			} for (int i = 0; i < 5; i++) {
-				garchers[i].checkCrater(crater);
-			} for (int i = 0; i < 8; i++) {
-				brams[i].checkCrater(crater);
-			}
-			kgoblin.checkCrater(crater);
-		
-		//Check Archer
-		} for(int k = 0; k < good.narchers; k++) {
-			Archer archer = good.archers[k];
-			
-			for (int j = 0; j < 22; j++) {
-				goblins[j].checkArcher(archer);
-			} for (int j = 0; j < 5; j++) {
-				garchers[j].checkArcher(archer);
-				garchers[j].arrow.checkArcher(archer);
-			} for (int j = 0; j < 8; j++) {
-				brams[j].checkArcher(archer);
-			}
-			kgoblin.checkArcher(archer);
-			
-			//Check Arrows
-			for (int i = 0; i < archer.arrows.size(); i++) {
-				Arrow arrow = archer.arrows.get(i);
-				for (int j = 0; j < 22; j++) {
-					goblins[j].checkArrow(arrow);
-				} for (int j = 0; j < 5; j++) {
-					garchers[j].checkArrow(arrow);
-				} for (int j = 0; j < 8; j++) {
-					brams[j].checkArrow(arrow);
+			GoblinPlayer goblin = goblinplayers.get(i);
+			for (int j = 0; j < good.defences.size(); j++) {
+				Sprite s = good.defences.get(j);
+				String name = s.name;
+				if (name == "Lake") {
+					goblin.checkLake((Lake) s);
+				} else if (name == "Crater") {
+					goblin.checkCrater((Crater) s);					
+				} else if (name == "Archer") {
+					goblin.checkArcher((Archer) s);					
+				} else if (name == "Arrow") {
+					goblin.checkArrow((Arrow) s);					
+				} else if (name == "Warrior") {
+					goblin.checkWarrior((Warrior) s);					
+				} else if (name == "Wall") {
+					goblin.checkWall((Wall) s);					
+				} else if (name == "Hero") {
+					goblin.checkHero((Hero) s);					
+				} else if (name == "Hero Sword") {
+					goblin.checkSword((HeroSword) s);					
 				}
-				kgoblin.checkArrow(arrow);
+				
 			}
-			
-		//Check Warrior
-		} for(int l = 0; l < good.nwarriors; l++) {
-			Warrior warrior = good.warriors[l];
-			
-			for (int j = 0; j < 22; j++) {
-				goblins[j].checkWarrior(warrior);
-			} for (int j = 0; j < 5; j++) {
-				garchers[j].checkWarrior(warrior);
-				garchers[j].arrow.checkWarrior(warrior);
-			} for (int j = 0; j < 8; j++) {
-				brams[j].checkWarrior(warrior);
-			}
-			kgoblin.checkWarrior(warrior);
-		
-		//Check Wall
-		} for(int m = 0; m < good.nwalls; m++) {
-			Wall wall = good.walls[m];
-			
-			for (int j = 0; j < 22; j++) {
-				goblins[j].checkWall(wall);
-			} for (int j = 0; j < 5; j++) {
-				garchers[j].checkWall(wall);
-			} for (int j = 0; j < 8; j++) {
-				brams[j].checkWall(wall);
-			}
-			kgoblin.checkWall(wall);
-			
+				
 		}
-		
-		//Check Hero
-		Hero hero = good.hero;
-		for (int j = 0; j < 22; j++) {
-			goblins[j].checkHero(hero);
-		} for (int j = 0; j < 5; j++) {
-			garchers[j].checkHero(hero);
-			garchers[j].arrow.checkHero(hero);
-		} for (int j = 0; j < 8; j++) {
-			brams[j].checkHero(hero);
-		}
-		kgoblin.checkHero(hero);
-		
-		//Check Hero's Sword
-		HeroSword sword = hero.sword;
-		for (int j = 0; j < 22; j++) {
-			goblins[j].checkSword(sword);
-		} for (int j = 0; j < 5; j++) {
-			garchers[j].checkSword(sword);
-			garchers[j].arrow.checkSword(sword);
-		} for (int j = 0; j < 8; j++) {
-			brams[j].checkSword(sword);
-		}
-		kgoblin.checkSword(sword);
 					
 	}
 	
 	private void checkWin() {  //Check if the impossible has happened
 		int win = 0;
-		for (int i = 0; i < 22; i++) {
-			if (goblins[i].dx == 0) {
+		for (int i = 0; i < goblins.size(); i++) {
+			if (goblins.get(i).dx == 0) {
 				win++;
 			}
-		} for (int i = 0; i < 5; i++) {
-			if (garchers[i].dx == 0) {
+		} for (int i = 0; i < garchers.size(); i++) {
+			if (garchers.get(i).dx == 0) {
 				win++;
 			}
-		} for (int i = 0; i < 8; i++) {
-			BatteringRam bram = brams[i];
+		} for (int i = 0; i < brams.size(); i++) {
+			BatteringRam bram = brams.get(i);
 			if (bram.bram == false) {
 				for (int j = 0; j < 3; j++) {
-					if (bram.goblins[j].dx == 0) {
+					if (bram.goblins.get(j).dx == 0) {
 						win++;
 					}
 				}
 			}
+		} for (int i = 0; i < ggoblins.size(); i++) {
+			if (ggoblins.get(i).dx == 0) {
+				win++;
+			}
 		}
-		if (kgoblin.win == true) {
+		if (king && kgoblin.win == true) {
 			win++;
 		}
 		
@@ -323,6 +252,38 @@ public class Enemy {
 			}
 			
 		}*/
+	}
+	
+	public void sendArmy(String name, int y) {
+		order.add(name);
+		intOrder.add(y);		
+	}
+	
+	public void fieldReport(Sprite s) {
+		if (s.name == "Hero Sword") {
+			sendArmy("giant goblin", (int) s.y - 15);
+		}
+		if (s.name == "Hero") {
+			sendArmy("goblin", (int) s.y);
+		}
+		if (s.name == "Wall") {
+			sendArmy("battering ram", (int) s.y);
+		}
+		if (s.name == "Lake") {
+			sendArmy("battering ram", (int) s.y);
+		}
+		if (s.name == "Crater") {
+			sendArmy("battering ram", (int) s.y);
+		}
+		if (s.name == "Warrior") {
+			sendArmy("goblin", (int) s.y);
+		}
+		if (s.name == "Archer") {
+			sendArmy("goblin", (int) s.y);
+		}
+		if (s.name == "Arrow") {
+			sendArmy("archer", (int) s.y);
+		}
 	}
 	
 }

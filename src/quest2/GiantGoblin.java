@@ -1,28 +1,34 @@
 package quest2;
 
-public class KingGoblin extends GoblinPlayer{
+public class GiantGoblin extends GoblinPlayer{
 	
 	Enemy master;  //The field for the enemy class
 	
-	int lives = 5;  //Variable for the amount of lives the sprite has
+	int lives = 3;  //Variable for the amount of lives the sprite has
 	int damage = 3;  //Variable for the amount of damage the sprite does
 	
 	boolean win = false;  //Variable for if the goblin died
 	public boolean targeted = false;
+	public boolean back = false;
 	
-	public KingGoblin(int x, int y, int xl, int yl, String path, Enemy enemy) {
-		super(path, "king", x, y, xl, yl);
+	public GiantGoblin(int x, int y, int xl, int yl, String path, Enemy enemy) {
+		super(path, "giant goblin", x, y, xl, yl);
 		moving = true;
 		appear = true;
 		master = enemy;  //Assign master to the enemy argument
 	}
 	
 	@Override
-	public void Update() {		
+	public void Update() {
 		if (appear == true) {
-			dx = 2;  //Set the X-speed to 2 if it is alive
+			dx = .5;
 		} else {
 			dx = 0;  //Otherwise set it to 0
+		}
+		
+		if (back) {
+			x -= 50;
+			back = false;
 		}
 		
 		checkLives();  //check the lives of the goblin to see if it should still be living
@@ -40,13 +46,13 @@ public class KingGoblin extends GoblinPlayer{
 
 	public void checkLake(Lake lake) {  //Function to check if the goblin king is in collision with a 
 		if(checkCollision(lake.x, lake.y, lake.xl, lake.yl)) {
-			
+			dx = 0;
 		}
 	}
 	
 	public void checkCrater(Crater crater) {
 		if(checkCollision(crater.x, crater.y, crater.xl, crater.yl)) {  //Function to check if the goblin king is in collision with a lake
-
+			dx = 0;
 		}
 	}
 	
@@ -69,7 +75,7 @@ public class KingGoblin extends GoblinPlayer{
 	
 	public void checkWall(Wall wall) {
 		if(checkCollision(wall.x, wall.y, wall.xl, wall.yl)) {  //Function to check if the goblin king is in collision with a wall
-
+			dx = 0;
 		}
 	}
 
@@ -98,8 +104,8 @@ public class KingGoblin extends GoblinPlayer{
 		if(checkCollision(sword.x, sword.y, sword.xl, sword.yl)) {  //Function to check if the goblin king is in collision with the hero's sword
 			dx = 0;
 			lives -= sword.damage;
-			x -= 50;
-			sword.defend(3);
+			back = true;
+			sword.defend(15);
 		}
 	}
 	

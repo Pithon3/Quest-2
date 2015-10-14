@@ -38,7 +38,7 @@ public class Window extends JPanel implements ActionListener{
 	private int rate = 0;  //The rate at wich the game progresses
 	
 	private int counter;  //A count of the ticks between different game intructions
-	
+	private boolean clicked = false;
 	private static final long serialVersionUID = 1L;  //Code so I don't get a warning
 	
 	static Sprite blankSprite = new Sprite(500, 500);
@@ -58,7 +58,7 @@ public class Window extends JPanel implements ActionListener{
 		setDoubleBuffered(true);
 		
 		//Initializing the good side
-		good1 = new Good1();
+		good1 = new Good1(this);
 		good2 = new Good2(good1);
 		
 		timer = new Timer(10, this);
@@ -70,7 +70,7 @@ public class Window extends JPanel implements ActionListener{
 		this.g = g;  //Store the Graphics engine in a field
 		super.paint(g);
 		
-		Graphics2D G = (Graphics2D)g;  //Initialize Graphics2D        
+		Graphics2D G = (Graphics2D)g;  //Initialize Graphics2D
 		
 		G.setColor(new Color(0, 75, 200));
 		G.fillRect(0, 440, 721, 121);
@@ -97,11 +97,20 @@ public class Window extends JPanel implements ActionListener{
 			}
 			
 			//Make the text for the go on button
+			if (clicked) {
+				G.setColor(new Color(15, 90, 215));
+				G.fillRect(621, 451, 80, 69);
+			}
 			
-			G.drawString("Go on --->", 645, 435);
 			G.setColor(Color.black);
-			G.drawRect(640, 420, 80, 20);
+			G.drawString("Go on --->", 635, 490);
+			G.setColor(Color.black);
+			G.drawRect(620, 450, 80, 70);
+			G.setColor(new Color(0, 75, 200));
+			G.drawLine(620, 521, 620, 521);
+			G.drawLine(701, 520, 701, 520);
 			
+			G.setColor(Color.black);
 			G.drawLine(0, 440, 720, 440);
 			
 			//Update the placeable items
@@ -189,56 +198,20 @@ public class Window extends JPanel implements ActionListener{
 				HeroSword sword = hero.sword;
 				G.drawImage(hero.image, (int) hero.x, (int) hero.y, this);
 				
-				G.rotate(-sword.rotation, sword.x, sword.y);
-				G.drawImage(sword.image, (int) sword.x, (int) sword.y, this);
-				G.rotate(sword.rotation, sword.x, sword.y);
-
+				if (sword.appear) {
+					G.rotate(-sword.rotation, sword.displayX, sword.displayY);
+					G.drawImage(sword.image, (int) sword.displayX, (int) sword.displayY, this);
+					G.rotate(sword.rotation, sword.displayX, sword.displayY);
+				}
+				
 			}
 			
-			//...goblins
-			for (int n = 0; n < 22; n++) {
-				Goblin goblin = enemy.goblins[n];
+			//...goblin playerss
+			for (int i = 0; i < enemy.goblinplayers.size(); i++) {
+				GoblinPlayer goblin = enemy.goblinplayers.get(i);
 				if (goblin.appear == true) {
-					G.drawImage(goblin.image, (int) goblin.x, (int) goblin.y, this);
+					G.drawImage(goblin.image, (int) goblin.x, (int)  goblin.y, this);
 				}
-			} 
-			
-			//...goblin archers
-			for (int i = 0; i < 5; i++) {
-				GoblinArcher garcher = enemy.garchers[i];
-				if (garcher.appear == true) {				
-					G.drawImage(garcher.image, (int) garcher.x, (int) garcher.y, this);
-				}
-				
-				//...goblin archer's arrows
-				EnemyArrow arrow = garcher.arrow;
-				G.drawImage(arrow.image, (int) arrow.x, (int) arrow.y, this);
-				
-			} 
-			
-			//...battering rams
-			 for (int i = 0; i < 8; i++) {
-				BatteringRam bram = enemy.brams[i];
-				if (bram.appear == true) {  //If the battering ram is still a battering ram
-					if (bram.bram == true) {
-						G.drawImage(bram.image, (int) bram.x, (int) bram.y, this);
-					}
-				} else {  //Otherwise draw the goblins
-					if (bram.bram == false) {
-						for (int j = 0; j < 3; j++) {
-							Goblin goblin = bram.goblins[j];
-							if (goblin.appear == true) {
-								
-								G.drawImage(goblin.image, (int) goblin.x, (int) goblin.y, this);
-							}
-						}
-					}
-				}
-			} 
-				
-			//...goblin king
-			if (enemy.kgoblin.appear == true) {
-				G.drawImage(enemy.kgoblin.image, (int) enemy.kgoblin.x, (int) enemy.kgoblin.y, this);
 			}
 			
 		}
@@ -398,7 +371,6 @@ public class Window extends JPanel implements ActionListener{
 	private class MAdapter extends MouseAdapter {  //Listens for the mouse Clicking
 		
 		public void mouseClicked(MouseEvent e) {
-			good1.checkButton(e);
 			good2.mouseClicked(e);
 			if (enemy != null) {
 				enemy.mouseClicked(e);
@@ -408,6 +380,11 @@ public class Window extends JPanel implements ActionListener{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			good1.mouseReleased(e);
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			good1.checkButton(e);
 		}
 		
 	}
@@ -442,6 +419,14 @@ public class Window extends JPanel implements ActionListener{
 	
 	public static void print(String s) {
 		System.out.println(s);
+	}
+	
+	public void clicked() {
+		clicked = !clicked;
+	}
+	
+	public boolean click() {
+		return clicked;
 	}
 	
 }

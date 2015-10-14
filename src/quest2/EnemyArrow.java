@@ -11,10 +11,10 @@ public class EnemyArrow extends Sprite {
 	int damage = 2;  //The variable that represents the amount of damage the arrow does
 	
 	double direction;  //The direction in wich the arrow if pointing
-	boolean fired = false;  //If the arrow is fired
+	boolean fired = true;  //If the arrow is fired
 	
 	public EnemyArrow(String path, double x, double y, int xl, int yl, GoblinArcher master) {
-		super(path, x, y, xl, yl);
+		super(path, "arrow", x, y, xl, yl);
 		archer = master;  //Assign the GoblinArcher to archer
 	}
 
@@ -23,6 +23,7 @@ public class EnemyArrow extends Sprite {
 		x += dx;
 		y += dy;
 		
+		System.out.println("hi");
 		
 		if (fired == true) {
 			dx = 2;  //If the arrow is fires, assign the X-speed to 2

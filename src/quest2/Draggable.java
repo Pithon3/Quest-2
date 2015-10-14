@@ -7,7 +7,6 @@ public class Draggable extends Sprite {
 
 	int mx;  //the X value of the mouse
 	int my;  //the Y value of the mouse
-	String name;  //name of the defence that will be placed
 	boolean mousein = false;  //boolean variable that represents if the mouse is in the area of the sprite
 	boolean clicked = false;
 	boolean placed = false;
@@ -16,11 +15,10 @@ public class Draggable extends Sprite {
 	public String filepath;  //For accesing the path once the drggable is being converted
 	
 	public Draggable(String filepath, int x, int y, int xlong, int ylong, String n, Good1 good1) {
-		super(filepath, x, y, xlong, ylong);
+		super(filepath, n, x, y, xlong, ylong);
 		
 		//Assign stuff
 		master = good1;
-		name = n;
 		this.filepath = filepath;
 	}
 	

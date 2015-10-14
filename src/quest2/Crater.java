@@ -7,8 +7,8 @@ public class Crater extends Sprite{
 	int damage = 0;  //Variable for the amount of damage the sprite does
 	int lives = 1;  //Variable for the amount of lives the sprite has
 
-	public Crater(double x, double y, int xl, int yl, String filepath) {
-		super(filepath, x, y, xl, yl);
+	public Crater(double x, double y, int xl, int yl, String filepath, String n) {
+		super(filepath, n, x, y, xl, yl);
 	}
 	
 	@Override

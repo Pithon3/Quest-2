@@ -34,7 +34,7 @@ public class Sprite extends MouseAdapter{
 	Image image;  //The image for the sprite
 	BufferedImage buffimage;  //The buffered image for the sprite
 	
-	public Sprite(String path, double x, double y, int xlong, int ylong) {
+	public Sprite(String path, String name, double x, double y, int xlong, int ylong) {
 		try {
 			buffimage = ImageIO.read(getClass().getResource(path));  //Get a buffered Image from the path given
 		} catch (IOException e) {
@@ -51,6 +51,7 @@ public class Sprite extends MouseAdapter{
 		xl = xlong;  //set given length to the field
 		yl = ylong;  //set given height to the field
 		
+		this.name = name;
 	}
 	
 	public Sprite(double x, double y) {
@@ -83,7 +84,6 @@ public class Sprite extends MouseAdapter{
 		}
 		
 	}
-
 	
 	protected boolean checkOutOfRange() {  //Check if the sprite is out if range, and if so, move it back in range
 		int xra = 713 - xl;
@@ -114,6 +114,24 @@ public class Sprite extends MouseAdapter{
 		return ret;
 	}
 	
+	public boolean checkOutOfRangeYOnly() {
+		int yra = 440 - yl;
+		
+		boolean ret = false;
+		
+		if (y < 0) {
+			y = 0;
+			ret = true;
+		}
+			
+		if (y > yra) {
+			y = yra;
+			ret = true;
+		}
+		
+		return ret;
+	}
+	
 	public double getX() {  //Getter for X
 		return x;
 	}
@@ -133,6 +151,13 @@ public class Sprite extends MouseAdapter{
 		Update();
 	}
 	
+	public void Update3() {
+		x += dx;
+		y += dy;
+		checkOutOfRangeYOnly();
+		Update();
+	}
+	
 	public void setImage(String path) {
 		try {
 			buffimage = ImageIO.read(getClass().getResource(path));  //Get a buffered Image from the path given
@@ -143,6 +168,9 @@ public class Sprite extends MouseAdapter{
 		image = ii.getImage();  //Get a image from the image icon
 	}
 	
-	
+	@Override
+	public String toString() {
+		return name;
+	}
 	
 }

@@ -26,7 +26,8 @@ public class Good2 {
 	
 	public Hero hero;  //Create the hero of the game
 	
-		ArrayList<Sprite> gtargets = new ArrayList<Sprite>();
+	ArrayList<Sprite> gtargets = new ArrayList<Sprite>();
+	ArrayList<Sprite> defences = new ArrayList<Sprite>();
 	
 	//Sprite directoree = Window.blankSprite;
 	//Sprite[] archert = new Sprite[]{Window.blankSprite, Window.blankSprite, Window.blankSprite, Window.blankSprite};
@@ -43,29 +44,44 @@ public class Good2 {
 			if (!convert.placed) {
 				//pass
 			}
-			else if (convert.name == "lake") {
-				lakes[nlakes] = new Lake(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath);
+			else if (convert.name == "Lake") {
+				lakes[nlakes] = new Lake(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath, convert.name);
 				nlakes += 1;
 			} 
-			else if (convert.name == "crater") {
-				craters[ncraters] = new Crater(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath);
+			else if (convert.name == "Crater") {
+				craters[ncraters] = new Crater(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath, convert.name);
 				ncraters += 1;
 			} 
-			else if (convert.name == "archer") {
-				archers[narchers] = new Archer(this, convert.x, convert.y, convert.xl, convert.yl, convert.filepath, narchers);
+			else if (convert.name == "Archer") {
+				archers[narchers] = new Archer(this, convert.x, convert.y, convert.xl, convert.yl, convert.filepath, narchers, convert.name);
 				narchers += 1;
 			} 
-			else if (convert.name == "warrior") {
-				warriors[nwarriors] = new Warrior(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath);
+			else if (convert.name == "Warrior") {
+				warriors[nwarriors] = new Warrior(convert.x,  convert.y, convert.xl, convert.yl, convert.filepath, convert.name);
 				nwarriors += 1;
 			} 
-			else if (convert.name == "wall") {
-				walls[nwalls] = new Wall(convert.x, convert.y, convert.xl, convert.yl, convert.filepath);
+			else if (convert.name == "Wall") {
+				walls[nwalls] = new Wall(convert.x, convert.y, convert.xl, convert.yl, convert.filepath, convert.name);
 				nwalls += 1;
 			}
+			
 		}
 		
 		hero = new Hero("/quest2/hero.gif", 620, 200, 24, 62);  //Create the hero
+		
+		for (int i = 0; i < nlakes; i++) {
+			defences.add(lakes[i]);
+		} for (int i = 0; i < ncraters; i++) {
+			defences.add(craters[i]);
+		} for (int i = 0; i < narchers; i++) {
+			defences.add(archers[i]);
+		} for (int i = 0; i < nwarriors; i++) {
+			defences.add(warriors[i]);
+		} for (int i = 0; i < nwalls; i++) {
+			defences.add(walls[i]);
+		}
+		defences.add(hero);
+		defences.add(hero.sword);
 		
 	}
 
@@ -75,7 +91,13 @@ public class Good2 {
 		} for (int j = 0; j < ncraters; j++) {
 			craters[j].Update();
 		} for (int k = 0; k < narchers; k++) {
-			archers[k].Update(gtargets);			
+			archers[k].Update(gtargets);
+			
+			for (int i = 0; i < archers[k].arrows.size(); i++) {
+				if (!defences.contains(archers[k].arrows.get(i))) {
+					defences.add(archers[k].arrows.get(i));
+				}
+			}
 		} for (int l = 0; l < nwarriors; l++) {
 			warriors[l].Update(gtargets);
 		} for (int m = 0; m < nwalls; m++) {

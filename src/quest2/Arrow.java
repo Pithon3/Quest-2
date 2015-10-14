@@ -14,8 +14,9 @@ public class Arrow extends Sprite {
 	double direction = 0;  //The direction in wich the arrow if pointing
 	
 	public Arrow(String path, double x, double y, int xl, int yl, double tx, double ty, Archer master, int facing) {
-		super(path, x, y, xl, yl);
+		super(path, "Arrow", x, y, xl, yl);
 		archer = master;  //Assign the arrow to archer
+		name = "Arrow";
 		
 		double dis = Math.sqrt(Math.pow(x-tx, 2) + Math.pow(y-ty, 2));
 		dx = -3 * (x-tx) / dis;
